@@ -1,37 +1,72 @@
-// The back-end
+const path = require("path");
+const http = require("http");
+const express = require("express");
+const socketio = require("socket.io");
+const formatMessage = require("./utils/messages");
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers,
+} = require("./utils/users");
 
-// Initialize app as a function handler to supply to an HTTP server
-const app = require('express')();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
 
-// // Will check if we have an env var named port and use that, otherwise it will run on 3000
-// const PORT = 3000 || process.env.PORT;
+// Set static folder
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/start.html');
+const botName = "ChatCord Bot";
+//Run when a client connects
+io.on("connection", (socket) => {
+  socket.on("joinRoom", ({ username, room }) => {
+    const user = userJoin(socket.id, username, room);
+    socket.join(user.room);
+
+    //Welcome current user
+    socket.emit("message", formatMessage(botName, "Welcome to GuessIt"));
+
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        "message",
+        formatMessage(botName, `${user.username} has joined the chat`)
+      );
+
+    // Send users and room info
+    io.to(user.room).emit("roomUsers", {
+      room: user.room,
+      users: getRoomUsers(user.room),
+    });
   });
 
+  // Listen for chatMesssage
+  socket.on("chatMessage", (msg) => {
+    const user = getCurrentUser(socket.id);
 
-const users = {};
+    io.to(user.room).emit("message", formatMessage(user.username, msg));
+  });
 
-io.on('connection', (socket) => {
-    socket.on('new-user', name => {
-        users[socket.id] = name;
-        socket.broadcast.emit('user-connected', name);
-    });
-    socket.on('send-chat-message', message => {
-        // Sends message to everybody on the server, except the person sending it
-        socket.broadcast.emit('chat-message', {message: message, name: users[socket.id]});
-    });
+  // Runs when client disconnects
+  socket.on("disconnect", () => {
+    const user = userLeave(socket.id);
 
-    socket.on('disconnect', () => {
-        socket.broadcast.emit('user-disconnected', users[socket.id]);
-        delete users[socket.id];
-    });
+    if (user) {
+      io.to(user.room).emit(
+        "message",
+        formatMessage(botName, `${user.username} has left the chat`)
+      );
+      // Send users and room info
+      io.to(user.room).emit("roomUsers", {
+        room: user.room,
+        users: getRoomUsers(user.room),
+      });
+    }
+  });
 });
 
-// Run the server and informs us of the port
-http.listen(3000, () => {
-    console.log(`Listening on *:3000`)
-});
+const PORT = 3000 || process.env.PORT;
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

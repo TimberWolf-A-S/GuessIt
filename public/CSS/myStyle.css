@@ -1,0 +1,191 @@
+@font-face {
+  font-family: Kollektif Regular;
+  font-style: normal;
+  font-weight: normal;
+  src: local("Kollektif Regular"), url("Kollektif.woff") format("woff");
+}
+
+body {
+  background-image: url("https://images.unsplash.com/photo-1508614999368-9260051292e5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  min-height: 100%;
+}
+
+h1 {
+  text-align: center;
+  font-size: 75px;
+  /* Kollektif font */
+  font-family: Kollektif Regular;
+  letter-spacing: 5mm;
+}
+
+.grid-container > form > button {
+  display: block;
+  padding: 10px 10px;
+  grid-template-columns: 150px;
+}
+
+.grid-container > form > button {
+  text-align: center;
+  margin: 30px auto;
+  /* Try and place buttons in the middle of website */
+  padding: 15px;
+  font-size: 25px;
+  font-family: Kollektif Regular;
+  background-color: white;
+  width: 150px;
+  outline: none;
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+.btn:hover {
+  background: #cdd1cd;
+  /* box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19); */
+}
+
+.button:active {
+  background-color: #1665a5;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+/* Container for help and settings */
+/*.container {
+   border-style: solid;
+  text-align: center;
+  display: inline-block; 
+}/*
+
+/* FOOTER */
+
+ul {
+  padding: 0;
+}
+
+li {
+  display: inline;
+  padding: 10px;
+  font-size: 16px;
+}
+
+nav {
+  font-size: 16px;
+  text-align: center;
+  font-family: Kollektif Regular;
+  padding: 20px;
+}
+
+a {
+  color: white;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin: 0 0;
+  left: 0;
+  right: 0;
+  /* Height of the footer*/
+  height: auto;
+  background: #414245;
+  display: inline;
+  overflow: auto;
+}
+
+footer li {
+  border-right: 1px solid #373535;
+}
+
+footer li:last-child {
+  border-right: none;
+}
+
+/* For mobile phones: */
+[class*="col-"] {
+  width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .col-s-1 {
+    width: 8.33%;
+  }
+  .col-s-2 {
+    width: 16.66%;
+  }
+  .col-s-3 {
+    width: 25%;
+  }
+  .col-s-4 {
+    width: 33.33%;
+  }
+  .col-s-5 {
+    width: 41.66%;
+  }
+  .col-s-6 {
+    width: 50%;
+  }
+  .col-s-7 {
+    width: 58.33%;
+  }
+  .col-s-8 {
+    width: 66.66%;
+  }
+  .col-s-9 {
+    width: 75%;
+  }
+  .col-s-10 {
+    width: 83.33%;
+  }
+  .col-s-11 {
+    width: 91.66%;
+  }
+  .col-s-12 {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .col-1 {
+    width: 8.33%;
+  }
+  .col-2 {
+    width: 16.66%;
+  }
+  .col-3 {
+    width: 25%;
+  }
+  .col-4 {
+    width: 33.33%;
+  }
+  .col-5 {
+    width: 41.66%;
+  }
+  .col-6 {
+    width: 50%;
+  }
+  .col-7 {
+    width: 58.33%;
+  }
+  .col-8 {
+    width: 66.66%;
+  }
+  .col-9 {
+    width: 75%;
+  }
+  .col-10 {
+    width: 83.33%;
+  }
+  .col-11 {
+    width: 91.66%;
+  }
+  .col-12 {
+    width: 100%;
+  }
+}
