@@ -73,28 +73,15 @@ function outputUsers(users) {
   });
 }
 
-// function startGame1() {
-//   if (roomUsers)
-//
+// function startGame() {
+//     let user = 0;
+//     let check = document.getElementById("users");
+//     check.forEach((user) => {
+//         user++;
+//     });
+//     if(user > 2) {
+//         console.log('Hello');
+//     } else {
+//         console.log('go away');
+//     }
 // }
-
-console.log(getRoomUsers(userList));
-function startGame2(userList) {
-  if (getRoomUsers(userList) >= 2 && usersList.length <= 4) {
-    console.log("Hey2");
-  } else {
-    console.log("Not working 2");
-  }
-}
-
-function startGame3(users) {
-  let userCount = 0;
-
-  users.forEach((element) => userCount++);
-
-  if (userCount >= 2 && userCount <= 4) {
-    console.log("Hey3");
-  } else {
-    console.log("Not working 3");
-  }
-}

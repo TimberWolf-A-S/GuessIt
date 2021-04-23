@@ -1,21 +1,23 @@
 {
-  "name": "chat-test",
-  "version": "1.0.0",
-  "description": "Real time chat app with rooms",
-  "main": "server.js",
+  "name": "guessittest6",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "node ./bin/www",
+    "devstart": "nodemon ./bin/www",
+    "serverstart": "DEBUG=GuessItTest6:* npm run devstart"
   },
-  "author": "",
-  "license": "MIT",
   "dependencies": {
-    "async": "^3.2.0",
-    "express": "^4.17.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
     "moment": "^2.29.1",
     "mongoose": "^5.12.5",
-    "pug": "^3.0.2",
-    "socket.io": "^4.0.1"
+    "morgan": "~1.9.1",
+    "socket.io": "^4.0.1",
+    "socketio-jwt": "^4.6.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

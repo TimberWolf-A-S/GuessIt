@@ -9,7 +9,7 @@
       integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/stylesheets/chatStyle.css" />
     <title>GuessIt</title>
   </head>
 
@@ -18,12 +18,9 @@
   </header>
 
   <body>
-    <button onclick="startGame1()">Start Game</button>
-    <button onclick="startGame2()">Start Game</button>
-    <button onclick="startGame3()">Start Game</button>
     <div class="chat-container">
       <header class="chat-header">
-        <h1><i class="fas fa-smile"></i> ChatCord</h1>
+        <h1><i class="fas"></i> Game Chat</h1>
         <a id="leave-btn" class="btn">Leave Room</a>
       </header>
       <main class="chat-main">
@@ -47,6 +44,10 @@
           <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
         </form>
       </div>
+      <button type="submit" class="btn" formaction="/helper.ejs">
+        Start Game
+      </button>
+      <button onclick="startGame()">Click me</button>
     </div>
 
     <script
@@ -55,6 +56,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="js/main.js"></script>
+    <script src="/javascripts/chatMain.js"></script>
   </body>
 </html>
