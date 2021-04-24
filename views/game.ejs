@@ -9,6 +9,7 @@
       integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
       crossorigin="anonymous"
     />
+    <link rel='stylesheet' href='/stylesheets/footerStyle.css' />
     <link rel="stylesheet" href="/stylesheets/chatStyle.css" />
     <title>GuessIt</title>
   </head>
@@ -18,10 +19,14 @@
   </header>
 
   <body>
+    <button type="submit" class="btn" formaction="/helper.ejs">
+      Start Game
+    </button>
+    <button onclick="startGame()">Click me</button>
     <div class="chat-container">
       <header class="chat-header">
-        <h1><i class="fas"></i> Game Chat</h1>
-        <a id="leave-btn" class="btn">Leave Room</a>
+        <h3><i class="fas"></i> Game Chat</h3>
+        <button id="leave-btn" class="btn" onclick="leaveRoom()">Leave Room</button>
       </header>
       <main class="chat-main">
         <div class="chat-sidebar">
@@ -44,12 +49,18 @@
           <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
         </form>
       </div>
-      <button type="submit" class="btn" formaction="/helper.ejs">
-        Start Game
-      </button>
-      <button onclick="startGame()">Click me</button>
     </div>
+    <footer>
 
+      <nav>
+          <ul>
+              <li id="footerlist"><a href="">About Us</a></li>
+              <li id="footerlist"><a href="">Contact Us</a></li>
+              <li id="footerlist"><a href="">Privacy</a></li>
+          </ul>
+      </nav>
+  
+    </footer>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
       integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="

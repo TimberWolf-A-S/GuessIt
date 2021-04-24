@@ -61,11 +61,15 @@ module.exports = function(app, server) {
   });
 
   const botName = "ChatCord Bot";
+  let clients;
   //Run when a client connects
   io.on("connection", (socket) => {
     socket.on("joinRoom", ({ username, room }) => {
       const user = userJoin(socket.id, username, room);
       socket.join(user.room);
+
+      clients = +socket.adapter.sids.size;
+      console.log(`clients: ${clients} in room ${room}`);
 
       //Welcome current user
       socket.emit("message", formatMessage(botName, "Welcome to GuessIt"));
@@ -84,7 +88,6 @@ module.exports = function(app, server) {
         users: getRoomUsers(user.room),
       });
     });
-
     // Listen for chatMesssage
     socket.on("chatMessage", (msg) => {
       const user = getCurrentUser(socket.id);
@@ -95,6 +98,9 @@ module.exports = function(app, server) {
     // Runs when client disconnects
     socket.on("disconnect", () => {
       const user = userLeave(socket.id);
+      clients--;
+      console.log(`clients: ${clients}`);
+      // clients = -socket.adapter.sids.size;
 
       if (user) {
         io.to(user.room).emit(

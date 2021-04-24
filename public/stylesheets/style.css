@@ -69,7 +69,7 @@ h3 {
 }
 /* Chat Page */
 
-.chat-container {
+/* .chat-container {
   float: right;
   max-width: 400px;
   background: #fff;
@@ -115,7 +115,7 @@ h3 {
 /* .chat-sidebar ul li {
 } */
 
-.chat-messages {
+/*.chat-messages {
   padding: 30px;
   max-height: 500px;
   overflow-y: scroll;
@@ -155,7 +155,7 @@ h3 {
   padding: 5px;
   height: 40px;
   flex: 1;
-}
+} */
 
 /* CHAT */
 
@@ -189,14 +189,14 @@ h3 {
 }*/
 
 /* TIMER */
-p {
+/* p {
   font-size: 1.5em;
   font-family: Kollektif Regular;
   border-style: double;
   display: inline;
   text-align: center;
   padding: 5px;
-}
+} */
 
 #lemur {
   display: block;
@@ -218,7 +218,7 @@ p {
 
 /* FOOTER */
 
-ul {
+/* ul {
   padding: 0;
 }
 
@@ -238,29 +238,6 @@ nav {
 a {
   color: white;
 }
-
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  margin: 0 0;
-  margin-top: 150px;
-  left: 0;
-  right: 0;
-  /* Height of the footer*/
-  background: #414245;
-  display: inline;
-  overflow: auto;
-}
-
-footer li {
-  border-right: 1px solid #373535;
-}
-
-footer li:last-child {
-  border-right: none;
-}
-*/
 
 
 
@@ -348,9 +325,3 @@ footer li:last-child {
   }
 }
 
-@font-face {
-  font-family: Kollektif Regular;
-  font-style: normal;
-  font-weight: normal;
-  src: local("Kollektif Regular"), url("Kollektif.woff") format("woff");
-}

@@ -73,15 +73,10 @@ function outputUsers(users) {
   });
 }
 
-// function startGame() {
-//     let user = 0;
-//     let check = document.getElementById("users");
-//     check.forEach((user) => {
-//         user++;
-//     });
-//     if(user > 2) {
-//         console.log('Hello');
-//     } else {
-//         console.log('go away');
-//     }
-// }
+function leaveRoom() {
+  location.href = '/lobby';
+}
+
+function startGame() {
+
+}

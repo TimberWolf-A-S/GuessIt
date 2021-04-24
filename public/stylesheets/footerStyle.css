@@ -1,0 +1,42 @@
+ul {
+    padding: 0;
+  }
+  
+  #footerlist {
+    display: inline;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  nav {
+    font-size: 16px;
+    text-align: center;
+    font-family: Kollektif Regular;
+    padding: 20px;
+  }
+  
+  a {
+    color: white;
+  }
+  
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    margin: 0 0;
+    margin-top: 150px;
+    left: 0;
+    right: 0;
+    /* Height of the footer*/
+    background: #414245;
+    display: inline;
+    overflow: auto;
+  }
+  
+  footer li {
+    border-right: 1px solid #373535;
+  }
+  
+  footer li:last-child {
+    border-right: none;
+  }
