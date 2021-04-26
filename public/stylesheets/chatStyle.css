@@ -150,3 +150,12 @@ a {
   height: 40px;
   flex: 1;
 }
+
+#start-btn {
+  cursor: pointer;
+  padding: 5px 15px;
+  background: var(--light-color);
+  color: var(--dark-color-a);
+  border: 0;
+  font-size: 17px;
+}

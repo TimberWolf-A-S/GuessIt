@@ -44,6 +44,8 @@ module.exports = function(app, server) {
   app.use('/game', gameRouter);
   app.use('/lobby', lobbyRouter);
 
+
+
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {
     next(createError(404));
@@ -69,12 +71,19 @@ module.exports = function(app, server) {
       socket.join(user.room);
 
       clients = +socket.adapter.sids.size;
+      // let userArray = [];
+      io.in(user.room).emit('connectedUser', clients);
       console.log(`clients: ${clients} in room ${room}`);
+      // for(let i = 0; i <= clients.length; i++) {
+      //   userArray[i] = i+1;
+      //   console.log(userArray[i]);
+      // }
+      // console.log(userArray[1]);
 
       //Welcome current user
-      socket.emit("message", formatMessage(botName, "Welcome to GuessIt"));
+      socket.emit("message", formatMessage(botName, `Welcome to GuessIt ${username}`));
 
-      // Broadcast when a user connects
+      // Broadcast when a user connect
       socket.broadcast
         .to(user.room)
         .emit(
@@ -88,6 +97,7 @@ module.exports = function(app, server) {
         users: getRoomUsers(user.room),
       });
     });
+
     // Listen for chatMesssage
     socket.on("chatMessage", (msg) => {
       const user = getCurrentUser(socket.id);
@@ -99,8 +109,8 @@ module.exports = function(app, server) {
     socket.on("disconnect", () => {
       const user = userLeave(socket.id);
       clients--;
-      console.log(`clients: ${clients}`);
-      // clients = -socket.adapter.sids.size;
+      // io.to(user.room).emit('disconnectedUser', `clients: ${clients}`);
+      // console.log(`clients: ${clients}`);
 
       if (user) {
         io.to(user.room).emit(
