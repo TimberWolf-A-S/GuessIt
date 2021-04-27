@@ -17,9 +17,9 @@
   <body>
     <ul>
       <% image_list.forEach(function(image){ %>
-      <li>
+      <li id="hans">
         <img src="<%= image.image %>" alt="Image title" width="130px" />
-        <p><%= image.name%></p>
+        <p id="correctAnswer"><%= image.name%></p>
         <p><%= image.age %></p>
       </li>
       <% }) %>

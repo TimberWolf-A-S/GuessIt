@@ -74,13 +74,7 @@ module.exports = function(app, server) {
       // let userArray = [];
       io.in(user.room).emit('connectedUser', clients);
       console.log(`clients: ${clients} in room ${room}`);
-      // for(let i = 0; i <= clients.length; i++) {
-      //   userArray[i] = i+1;
-      //   console.log(userArray[i]);
-      // }
-      // console.log(userArray[1]);
-
-      //Welcome current user
+      
       socket.emit("message", formatMessage(botName, `Welcome to GuessIt ${username}`));
 
       // Broadcast when a user connect
@@ -96,6 +90,10 @@ module.exports = function(app, server) {
         room: user.room,
         users: getRoomUsers(user.room),
       });
+
+      socket.to(user.room).emit("startGame", getRoomUsers(user.room));
+
+    // socket.emit("redirectToNewGame",(getRoomUsers(user.room), '/game/helper'));
     });
 
     // Listen for chatMesssage
@@ -108,9 +106,6 @@ module.exports = function(app, server) {
     // Runs when client disconnects
     socket.on("disconnect", () => {
       const user = userLeave(socket.id);
-      clients--;
-      // io.to(user.room).emit('disconnectedUser', `clients: ${clients}`);
-      // console.log(`clients: ${clients}`);
 
       if (user) {
         io.to(user.room).emit(
