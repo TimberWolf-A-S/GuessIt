@@ -135,10 +135,22 @@ let correctAnswer = document.getElementById('correctAnswer').innerText;
 
 console.log(correctAnswer);
 
-socket.on('message', (message) => {
-  if(message.text === correctAnswer){
-    console.log('yay');
-  } else {
-    console.log('no craig - fuck off');
-  }
-});
+
+// socket.on('message', (message) => {
+//   if(message.text === correctAnswer){
+//     console.log('yay');
+//     socket.on('message', message);
+    
+//     io.on("connection", socket => {
+//       socket.on("private message", (anotherSocketId, msg) => {
+//         socket.to(anotherSocketId).emit("private message", socket.id, msg);
+//       });
+//     });
+
+    
+
+
+//   } else {
+//     console.log('no craig - fuck off');
+//   }
+// });

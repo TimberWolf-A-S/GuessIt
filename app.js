@@ -77,6 +77,8 @@ module.exports = function(app, server) {
       
       socket.emit("message", formatMessage(botName, `Welcome to GuessIt ${username}`));
 
+      socket.emit("message", 'Hello');
+
       // Broadcast when a user connect
       socket.broadcast
         .to(user.room)
@@ -93,14 +95,56 @@ module.exports = function(app, server) {
 
       socket.to(user.room).emit("startGame", getRoomUsers(user.room));
 
+      socket
+      .emit(
+        "correct",
+        formatMessage(botName, `${user.username} has quessed correct`)
+      );
+
+      // socket.emit("message", formatMessage(user.username, `You guessed correct!`));
+      // socket.broadcast
+      // .to(user.room)
+      // .emit(
+      //   "message",
+      //   formatMessage(botName, `${user.username} guessed correct!`)
+      // );
+
     // socket.emit("redirectToNewGame",(getRoomUsers(user.room), '/game/helper'));
     });
+
+
 
     // Listen for chatMesssage
     socket.on("chatMessage", (msg) => {
       const user = getCurrentUser(socket.id);
 
       io.to(user.room).emit("message", formatMessage(user.username, msg));
+
+      let correctAnswer = document.getElementById('correctAnswer').innerText;
+      //let correctAnswer = "Gorilla";
+
+      if(msg === correctAnswer){
+        console.log('yay');
+        socket.emit("message", formatMessage(botName, `Correct`));
+        } else {
+          console.log(msg);
+          socket.emit("message", formatMessage(botName, `Wrong`));
+          
+        };
+    
+
+    });
+
+    // Listen for correct answer
+    socket.on('correct', (message) => {
+      const user = getCurrentUser(socket.id);
+
+      socket.broadcast
+        .to(user.room)
+        .emit(
+          "message",
+          formatMessage(botName, `${user.username} has quessed correct`)
+        );
     });
 
     // Runs when client disconnects
