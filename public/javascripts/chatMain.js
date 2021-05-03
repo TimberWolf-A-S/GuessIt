@@ -105,6 +105,7 @@ function playersInRoom(users) {
 function enableStartButton(users) {
   let players = playersInRoom(users);
   console.log('Hello1');
+  console.log(players);
   const button = document.getElementById("start-btn");
   if(button !== null){
   if (players.length >= 2 && players.length <= 4) {
@@ -123,6 +124,7 @@ function leaveRoom() {
 }
 
 function start() {
+  
   location.href = `/game/helper?username=${username}&room=${room}`;  
 }
 
