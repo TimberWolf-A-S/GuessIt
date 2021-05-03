@@ -102,18 +102,22 @@ function playersInRoom(users) {
   return playersInRoom;
 }
 
+// Random Number -> Chosen One
+
+
+
 function enableStartButton(users) {
   let players = playersInRoom(users);
   console.log('Hello1');
   console.log(players);
-  let randomnum = Math.floor(Math.random()*4);
-  
+    
 
   console.log(randomnum);
   const button = document.getElementById("start-btn");
   if(button !== null){
   if (players.length == 4) {
     button.disabled = false;
+    let randomnum = Math.floor(Math.random()*4);
     let chosenOne = players[randomnum];
     //if (username == chosenOne)
     //start(users);
