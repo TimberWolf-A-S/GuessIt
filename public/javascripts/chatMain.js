@@ -131,11 +131,11 @@ function start(users) {
     console.log("Test succes"); 
     
   } else {
-    var x = document.getElementById("quack");
-      function playAudio() {
-        x.play();
-      }
-      playAudio();
+    var quack = document.getElementById("quack");
+    function playAudio() {
+      quack.play();
+    }
+    playAudio();
   }
   
   location.href = `/game/helper?username=${username}&room=${room}`;
