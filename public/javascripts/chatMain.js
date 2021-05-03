@@ -122,7 +122,7 @@ function leaveRoom() {
   // location.href = "/lobby";
 }
 
-function start() {
+function start(users) {
   let players = playersInRoom(users);
   if (players.length >= 2 && players.length <= 4) {
     //button.disabled = false;
