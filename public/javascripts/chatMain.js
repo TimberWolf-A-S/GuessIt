@@ -139,7 +139,10 @@ function enableStartButton(users) {
 
     
 var s_ocket = io();
-s_ocket.on('counter', function(count){$('#messages').append($('<li>').text(count));});
+s_ocket.on('counter', function(count) {
+  //$('#messages').append($('<li>').text(count));
+  console.log(count);
+});
     
 
 
