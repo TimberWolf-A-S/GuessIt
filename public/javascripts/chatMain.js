@@ -21,7 +21,7 @@ socket.on("roomUsers", ({ room, users }) => {
 
 socket.on("startButton", (users) => {
   enableStartButton(users);
-  start(users);
+  //start(users);
 });
 
 /* socket.on('redirectToNewGame', (users, newGameURL) => {
@@ -124,19 +124,19 @@ function leaveRoom() {
 }
 
 function start(users) {
-  let players = playersInRoom(users);
-  if (players.length >= 2 && players.length <= 4) {
-    //button.disabled = false;
-    //start(users);
-    console.log("Test succes"); 
-    location.href = `/game/helper?username=${username}&room=${room}`;
-  } else {
+  // let players = playersInRoom(users);
+  // if (players.length >= 2 && players.length <= 4) {
+  //   //button.disabled = false;
+  //   //start(users);
+  //   console.log("Test succes"); 
+  //   location.href = `/game/helper?username=${username}&room=${room}`;
+  // } else {
     var quack = document.getElementById("quack");
     function playAudio() {
       quack.play();
     }
     playAudio();
-  }
+  // }
   
   
 }
