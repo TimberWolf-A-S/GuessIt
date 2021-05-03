@@ -102,6 +102,20 @@ module.exports = function(app, server) {
     });
 
 
+    io.on('connection', function(socket){
+      var counter = 10;
+      var WinnerCountdown = setInterval(function(){
+        io.sockets.emit('counter', counter);
+        counter--
+        if (counter === 0) {
+          io.sockets.emit('counter', "Congratulations You WON!!");
+          clearInterval(WinnerCountdown);
+        }
+      }, 1000);
+    });
+
+
+
 
     // Listen for chatMesssage
     socket.on("chatMessage", (msg) => {
