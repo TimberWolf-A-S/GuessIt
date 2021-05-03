@@ -108,11 +108,11 @@ function enableStartButton(users) {
   const button = document.getElementById("start-btn");
   if(button !== null){
   if (players.length >= 2 && players.length <= 4) {
-    button.disabled = false;
+    //button.disabled = false;
     //start(users);
     console.log("Test succes"); 
   } else {
-    button.disabled = true;
+    //button.disabled = true;
     console.log("Test failed");
   }
   }
