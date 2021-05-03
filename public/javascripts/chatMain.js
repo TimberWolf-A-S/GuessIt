@@ -21,6 +21,7 @@ socket.on("roomUsers", ({ room, users }) => {
 
 socket.on("startButton", (users) => {
   enableStartButton(users);
+  start(users);
 });
 
 /* socket.on('redirectToNewGame', (users, newGameURL) => {
@@ -128,7 +129,7 @@ function start(users) {
     //button.disabled = false;
     //start(users);
     console.log("Test succes"); 
-    
+    location.href = `/game/helper?username=${username}&room=${room}`;
   } else {
     var quack = document.getElementById("quack");
     function playAudio() {
@@ -137,7 +138,7 @@ function start(users) {
     playAudio();
   }
   
-  location.href = `/game/helper?username=${username}&room=${room}`;
+  
 }
 
 function helper() {
