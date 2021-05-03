@@ -151,6 +151,8 @@ function leaveRoom() {
 }
 
 function start() {
+
+  
   location.href = `/game/helper?username=${username}&room=${room}`;  
 }
 

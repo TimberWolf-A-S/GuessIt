@@ -86,13 +86,13 @@ module.exports = function(app, server) {
         );
 
         //// TIMER////////
-      var counter = 10;
-      var WinnerCountdown = setInterval(function(){
+      var counter = 60;
+      var Countdown = setInterval(function(){
         io.sockets.emit('counter', counter);
         counter--
         if (counter === 0) {
-          io.sockets.emit('counter', "Congratulations You WON!!");
-          clearInterval(WinnerCountdown);
+          io.sockets.emit('counter', "TIME IS UP!!");
+          clearInterval(Countdown);
         }
       }, 1000);
       ///////////
