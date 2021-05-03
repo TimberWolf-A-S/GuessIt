@@ -21,7 +21,6 @@ socket.on("roomUsers", ({ room, users }) => {
 
 socket.on("startButton", (users) => {
   enableStartButton(users);
-  start(users);
 });
 
 /* socket.on('redirectToNewGame', (users, newGameURL) => {
