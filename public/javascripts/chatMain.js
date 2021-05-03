@@ -112,12 +112,13 @@ function enableStartButton(users) {
   console.log(players);
     
 
-  console.log(randomnum);
+  
   const button = document.getElementById("start-btn");
   if(button !== null){
   if (players.length == 4) {
     button.disabled = false;
     let randomnum = Math.floor(Math.random()*4);
+    console.log(randomnum);
     let chosenOne = players[randomnum];
     //if (username == chosenOne)
     //start(users);
