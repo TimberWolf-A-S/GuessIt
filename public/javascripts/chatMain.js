@@ -21,7 +21,7 @@ socket.on("roomUsers", ({ room, users }) => {
 
 socket.on("startButton", (users) => {
   enableStartButton(users);
-  playersInRoom(users)
+  //playersInRoom(users)
   //start(users);
 });
 
@@ -125,20 +125,20 @@ function leaveRoom() {
 }
 
 function start(users) {
-  let players = playersInRoom();
+  //let players = playersInRoom();
   // if (players.length >= 2 && players.length <= 4) {
   //   //button.disabled = false;
   //   //start(users);
   //   console.log("Test succes"); 
-  //   location.href = `/game/helper?username=${username}&room=${room}`;
-  // } else {
-    var quack = document.getElementById("quack");
-    function playAudio() {
-      quack.play();
-    }
-    playAudio();
-  // }
   
+  // } else {
+    // var quack = document.getElementById("quack");
+    // function playAudio() {
+    //   quack.play();
+    // }
+    // playAudio();
+  // }
+  location.href = `/game/helper?username=${username}&room=${room}`;
   
 }
 
