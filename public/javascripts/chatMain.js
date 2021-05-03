@@ -106,7 +106,7 @@ function enableStartButton(users) {
   let players = playersInRoom(users);
   console.log('Hello1');
   console.log(players);
-  let randomnum = Math.floor(Math.random()*players.length);
+  let randomnum = Math.floor(Math.random()*4);
   console.log(randomnum);
   const button = document.getElementById("start-btn");
   if(button !== null){
