@@ -117,13 +117,18 @@ function enableStartButton(users) {
   if(button !== null){
   if (players.length == 4) {
     button.disabled = false;
-    let randomnum = Math.floor(Math.random()*4);
-    console.log(randomnum);
-    let chosenOne = players[randomnum];
+    //let randomnum = Math.floor(Math.random()*4);
+    //console.log(randomnum);
+    //let chosenOne = players[randomnum];
     //if (username == chosenOne)
-    //start(users);
-    console.log(username); 
-    console.log(chosenOne); 
+    if (username == players[0]) {
+      start2(users);  
+    } else {
+      start(users);
+    }
+    
+    
+    
     console.log("Test succes"); 
   } else {
     button.disabled = true;
