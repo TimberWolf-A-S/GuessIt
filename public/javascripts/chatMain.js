@@ -102,28 +102,47 @@ function playersInRoom(users) {
   return playersInRoom;
 }
 
-function enableStartButton(users) {
-  let players = playersInRoom(users);
-  console.log('Hello1');
-  const button = document.getElementById("start-btn");
-  while(button !== null){
-  if (players.length >= 2 && players.length <= 4) {
-    button.disabled = false;
-    //start(users);
-    console.log("Test succes"); 
-  } else {
-    button.disabled = true;
-    console.log("Test failed");
-  }
-}
-}
+// function enableStartButton(users) {
+//   let players = playersInRoom(users);
+//   console.log('Hello1');
+//   const button = document.getElementById("start-btn");
+//   if(button !== null){
+//   if (players.length >= 2 && players.length <= 4) {
+//     button.disabled = false;
+//     //start(users);
+//     console.log("Test succes"); 
+//   } else {
+//     button.disabled = true;
+//     console.log("Test failed");
+//   }
+//   }
+// }
 
 function leaveRoom() {
   // location.href = "/lobby";
 }
 
 function start() {
-  location.href = `/game/helper?username=${username}&room=${room}`;
+  let players = playersInRoom(users);
+  console.log('Hello1');
+  //const button = document.getElementById("start-btn");
+  if (button !== null){
+    if (players.length >= 2 && players.length <= 4) {
+    //button.disabled = false;
+    //start(users);
+    console.log("Test succes"); 
+    location.href = `/game/helper?username=${username}&room=${room}`;
+  } else {
+    //button.disabled = true;
+    console.log("Test failed");
+    var x = document.getElementById("quack");
+      function playAudio() {
+        x.play();
+      }
+      playAudio();
+    }
+  }
+  
 }
 
 function helper() {
