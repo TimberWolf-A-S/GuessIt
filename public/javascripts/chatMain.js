@@ -109,7 +109,7 @@ function enableStartButton(users) {
   if(button !== null){
   if (players.length >= 2 && players.length <= 4) {
     button.disabled = false;
-    start(users);
+    //start(users);
     console.log("Test succes"); 
   } else {
     button.disabled = true;
