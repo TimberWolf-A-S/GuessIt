@@ -87,7 +87,7 @@ module.exports = function(app, server) {
 
         //// TIMER////////
       var counter = 60;
-        if (clients == 4) {
+        if (clients == 6) {
           var Countdown = setInterval(function(){
           io.sockets.emit('counter', counter);
           counter--
