@@ -131,13 +131,14 @@ function enableStartButton(users) {
     
     console.log("Test succes"); 
   } else {
-    button.disabled = true;
+    button.disabled = false;
+
     console.log("Test failed");
   }
 }
 }
 
-    
+/////// FFFFFFAADsadassadas    
 var s_ocket = io();
 s_ocket.on('counter', function(count) {
   //$('#messages').append($('<li>').text(count));
@@ -150,9 +151,15 @@ function leaveRoom() {
   // location.href = "/lobby";
 }
 
-function start() {
+function quack() {
+      var quack = document.getElementById("quack");
+      function playAudio() {
+        quack.play();
+      }
+      playAudio();
+}
 
-  
+function start() {
   location.href = `/game/helper?username=${username}&room=${room}`;  
 }
 
