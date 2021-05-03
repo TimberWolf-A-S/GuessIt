@@ -21,6 +21,7 @@ socket.on("roomUsers", ({ room, users }) => {
 
 socket.on("startButton", (users) => {
   enableStartButton(users);
+  playersInRoom(users)
   //start(users);
 });
 
@@ -104,7 +105,7 @@ function playersInRoom(users) {
 }
 
 function enableStartButton(users) {
-  let players = playersInRoom(users);
+  let players = playersInRoom();
   console.log('Hello1');
   const button = document.getElementById("start-btn");
   if(button !== null){
@@ -124,7 +125,7 @@ function leaveRoom() {
 }
 
 function start(users) {
-  let players = playersInRoom(users);
+  let players = playersInRoom();
   // if (players.length >= 2 && players.length <= 4) {
   //   //button.disabled = false;
   //   //start(users);
