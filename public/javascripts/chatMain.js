@@ -107,7 +107,7 @@ function enableStartButton(users) {
   console.log('Hello1');
   const button = document.getElementById("start-btn");
   while(button !== null){
-  while (players.length >= 2 && players.length <= 4) {
+  if (players.length >= 2 && players.length <= 4) {
     button.disabled = false;
     //start(users);
     console.log("Test succes"); 
