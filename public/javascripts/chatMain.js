@@ -123,6 +123,7 @@ function leaveRoom() {
 }
 
 function start() {
+  let players = playersInRoom(users);
   if (players.length >= 2 && players.length <= 4) {
     //button.disabled = false;
     //start(users);
