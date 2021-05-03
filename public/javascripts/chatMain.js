@@ -123,7 +123,7 @@ function leaveRoom() {
 }
 
 function start() {
-  location.href = "/game/helper";
+  location.href = "/game/helper?username=Frederik&room=Room+1";
 }
 
 function helper() {
