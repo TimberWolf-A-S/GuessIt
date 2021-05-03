@@ -85,6 +85,20 @@ module.exports = function(app, server) {
           formatMessage(botName, `${user.username} has joined the chat`)
         );
 
+        //// TIMER////////
+      var counter = 10;
+      var WinnerCountdown = setInterval(function(){
+        io.sockets.emit('counter', counter);
+        counter--
+        if (counter === 0) {
+          io.sockets.emit('counter', "Congratulations You WON!!");
+          clearInterval(WinnerCountdown);
+        }
+      }, 1000);
+      ///////////
+
+
+
       // Send users and room info
       io.to(user.room).emit("roomUsers", {
         room: user.room,
@@ -102,17 +116,7 @@ module.exports = function(app, server) {
     });
 
 
-    io.on('connection', function(socket){
-      var counter = 10;
-      var WinnerCountdown = setInterval(function(){
-        io.sockets.emit('counter', counter);
-        counter--
-        if (counter === 0) {
-          io.sockets.emit('counter', "Congratulations You WON!!");
-          clearInterval(WinnerCountdown);
-        }
-      }, 1000);
-    });
+
 
 
 
