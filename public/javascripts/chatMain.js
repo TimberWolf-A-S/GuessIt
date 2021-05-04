@@ -2,6 +2,8 @@ const chatForm = document.getElementById("chat-form");
 const chatMessages = document.querySelector(".chat-messages");
 const roomName = document.getElementById("room-name");
 const userList = document.getElementById("users");
+const scoreList = document.getElementById("score");
+const userScore = document.getElementById("userScore")
 
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
@@ -11,12 +13,14 @@ const { username, room } = Qs.parse(location.search, {
 const socket = io();
 
 // Join chatRoom
-socket.emit("joinRoom", { username, room });
+let score = 0;
+socket.emit("joinRoom", { username, room, score });
 
 //Get room and users
 socket.on("roomUsers", ({ room, users }) => {
   outputRoomName(room);
   outputUsers(users);
+  outputScoreboard(users)
 });
 
 socket.on("startButton", (users) => {
