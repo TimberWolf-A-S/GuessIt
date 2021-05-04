@@ -9,22 +9,38 @@
       integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/stylesheets/gameStyle.css" />
     <link rel="stylesheet" href="/stylesheets/footerStyle.css" />
     <link rel="stylesheet" href="/stylesheets/chatStyle.css" />
     <title>GuessIt</title>
   </head>
 
   <body>
-    <ul>
-      <% image_list.forEach(function(image){ %>
-      <li id="hans">
-        <img src="<%= image.image %>" alt="Image title" width="130px" />
-        <p id="correctAnswer"><%= image.name%></p>
-        <p><%= image.age %></p>
-      </li>
-      <% }) %>
-    </ul>
-    <div class="chat-container">
+    <div class="grid-container col-4">
+      <p>scoareboard</p>
+      <ul class="scoreboard">
+        <li class="scoreboard">
+          <h3>Users</h3>
+          <ul id="userScore"></ul>
+        </li>
+        <li class="scoreboard">
+          <h3>Scoare</h3>
+          <ul id="score"></ul>
+        </li>
+      </ul>
+    </div>
+    <div class="grid-container col-4 answer">
+      <ul>
+        <% image_list.forEach(function(image){ %>
+        <li>
+          <img id="imageAnswer" src="<%= image.image %>" alt="Image title" />
+          <p id="correctAnswer"><%= image.name%></p>
+          <p><%= image.age %></p>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
+    <div class="grid-container col-4 chat-container">
       <header class="chat-header">
         <h3><i class="fas"></i> Game Chat</h3>
         <button id="leave-btn" class="btn" onclick="leaveRoom()">

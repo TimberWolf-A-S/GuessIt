@@ -23,11 +23,6 @@ socket.on("startButton", (users) => {
   enableStartButton(users);
 });
 
-/* socket.on('redirectToNewGame', (users, newGameURL) => {
-  enableStartButton(users);
-  window.location = newGameURL;
-}) */
-
 socket.on("message", (message) => {
   console.log(message);
   outputMessage(message);
@@ -80,17 +75,33 @@ function outputUsers(users) {
     li.innerText = user.username;
     userList.appendChild(li);
   });
-}
+} 
 
-// function directUsers(users) {
-//   const button = document.getElementById("start-btn");
-//   let players = playersInRoom(users);
-//   if (players < 1) {
-//     console.log("succes");
-//   } else {
-//     console.log('Fuck mig');
-//   }
-// } 
+function outputScoreboard(users) {
+  userScore.innerHTML = "";
+
+  users.forEach((user) => {
+    if(li1 !== user.username) {
+    const li1 = document.createElement("li")
+    const li2 = document.createElement("li");
+    li1.innerText = user.username;
+    li2.setAttribute("id", user.username);
+    li2.innerText = user.score;
+    userScore.appendChild(li1);
+    scoreList.appendChild(li2);
+  }
+  });
+  socket.on('message', (message) => {
+    if(message.text === correctAnswer){
+      let li2 = document.getElementById(username);
+      let tempScore = Number (li2.innerText);
+      tempScore++;
+      li2.innerText = tempScore;
+      console.log(tempScore);
+      // li2.innerText = user.score;
+    }
+  });
+}
 
 function playersInRoom(users) {
   let playersInRoom = [];
@@ -148,7 +159,7 @@ s_ocket.on('counter', function(count) {
 
 
 function leaveRoom() {
-  // location.href = "/lobby";
+  location.href = "/lobby";
 }
 
 function quack() {
@@ -166,10 +177,6 @@ function start() {
 function start2() {
   location.href = `/game/guesser?username=${username}&room=${room}`;  
 }
-
-function helper() {
-  // location.href = "/game/helper";
-}
 /* 
 socket.on('connectedUser', connectedUser => {
   console.log(connectedUser);
@@ -180,7 +187,6 @@ socket.on('connectedUser', message => {
 });
 
 let correctAnswer = document.getElementById('correctAnswer').innerText;
-// console.log(correctAnswer);
 console.log(correctAnswer);
 
 

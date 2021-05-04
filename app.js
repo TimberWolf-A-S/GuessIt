@@ -66,8 +66,8 @@ module.exports = function(app, server) {
   let clients;
   //Run when a client connects
   io.on("connection", (socket) => {
-    socket.on("joinRoom", ({ username, room }) => {
-      const user = userJoin(socket.id, username, room);
+    socket.on("joinRoom", ({ username, room, score }) => {
+      const user = userJoin(socket.id, username, room, score);
       socket.join(user.room);
 
       clients = +socket.adapter.sids.size;
@@ -115,14 +115,7 @@ module.exports = function(app, server) {
         io.to(user.room).emit("message", formatMessage(user.username, msg));
       })
 
-    // socket.emit("redirectToNewGame",(getRoomUsers(user.room), '/game/helper'));
     });
-
-
-
-
-
-
 
     // Listen for chatMesssage
     socket.on("chatMessage", (msg) => {
@@ -131,12 +124,6 @@ module.exports = function(app, server) {
       io.to(user.room).emit("message", formatMessage(user.username, msg));
 
     });
-
-    // Listen for correct answer
-    // socket.on('correct', (message) => {
-    //   const user = getCurrentUser(socket.id);
-
-    // });
 
     // Runs when client disconnects
     socket.on("disconnect", () => {
