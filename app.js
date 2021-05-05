@@ -62,7 +62,7 @@ module.exports = function(app, server) {
     res.render('error');
   });
 
-  const botName = "ChatCord Bot";
+  const botName = "GuessIt";
   let clients;
   //Run when a client connects
   io.on("connection", (socket) => {
