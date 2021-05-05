@@ -16,62 +16,87 @@
   </head>
 
   <body>
-    <div class="grid-container col-4">
-      <p>scoareboard</p>
-      <ul class="scoreboard">
-        <li class="scoreboard">
-          <h3>Users</h3>
-          <ul id="userScore"></ul>
-        </li>
-        <li class="scoreboard">
-          <h3>Scoare</h3>
-          <ul id="score"></ul>
-        </li>
-      </ul>
-    </div>
-    <div class="grid-container col-4 answer">
-      <ul>
-        <% image_list.forEach(function(image){ %>
-        <li>
-          <img id="imageAnswer" src="<%= image.image %>" alt="Image title" />
-          <p id="correctAnswer"><%= image.name%></p>
-          <p><%= image.age %></p>
-        </li>
-        <% }) %>
-      </ul>
-    </div>
-    <div class="grid-container col-4 chat-container">
-      <header class="chat-header">
-        <h3><i class="fas"></i> Game Chat</h3>
-        <button id="leave-btn" class="btn" onclick="leaveRoom()">
-          Leave Room
-        </button>
-      </header>
-      <main class="chat-main">
-        <div class="chat-sidebar">
-          <h3><i class="fas fa-comments"></i> Room Name:</h3>
-          <h2 id="room-name"></h2>
-          <h3><i class="fas fa-users"></i> Users</h3>
-          <ul id="users"></ul>
+    <ul class="flex-container">
+      <div class="flex-item">
+        <div class="grid-container col-4">
+          <div class="scoreboard-wrapper">
+            <p>scoareboard</p>
+            <ul class="scoreboard">
+              <li class="scoreboard">
+                <h3>Users</h3>
+                <ul id="userScore"></ul>
+              </li>
+              <li class="scoreboard">
+                <h3>Scoare</h3>
+                <ul id="score"></ul>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="chat-messages"></div>
-      </main>
-      <div class="chat-form-container">
-        <form id="chat-form">
-          <input
-            id="msg"
-            type="text"
-            placeholder="Enter Message"
-            required
-            autocomplete="off"
-          />
-          <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
-        </form>
       </div>
+      <div class="flex-item">
+        <div class="grid-container answer">
+          <ul>
+            <% image_list.forEach(function(image){ %>
+            <li>
+              <img
+                id="imageAnswer"
+                src="<%= image.image %>"
+                alt="Image title"
+              />
+              <p id="correctAnswer"><%= image.name%></p>
+              <p><%= image.age %></p>
+            </li>
+            <% }) %>
+          </ul>
+        </div>
+      </div>
+      <div class="flex-item">
+        <!-- COLOUMN 3 CHAT START -->
+        <div class="grid-container chat-container">
+          <header class="chat-header">
+            <h3><i class="fas"></i> Game Chat</h3>
+            <button id="leave-btn" class="btn" onclick="leaveRoom()">
+              Leave Room
+            </button>
+          </header>
+          <main class="chat-main">
+            <div class="chat-sidebar">
+              <h3><i class="fas fa-comments"></i> Room Name:</h3>
+              <h2 id="room-name"></h2>
+              <h3><i class="fas fa-users"></i> Users</h3>
+              <ul id="users"></ul>
+            </div>
+            <div class="chat-messages"></div>
+          </main>
+          <div class="chat-form-container">
+            <form id="chat-form">
+              <input
+                id="msg"
+                type="text"
+                placeholder="Enter Message"
+                required
+                autocomplete="off"
+              />
+              <button class="btn">
+                <i class="fas fa-paper-plane"></i> Send
+              </button>
+            </form>
+          </div>
+        </div>
+        <!-- COLOUMN 3 CHAT START -->
+      </div>
+    </ul>
+
+    <div class="row">
+
     </div>
+
     <script type="text/javascript">
-        var s_ocket = io();
-        s_ocket.on('counter', function(count){$('#messages').append($('<li>').text(count));});
+      var s_ocket = io();
+      s_ocket.on("counter", function (count) {
+        $("#messages").append($("<li>").text(count));
+      });
     </script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
