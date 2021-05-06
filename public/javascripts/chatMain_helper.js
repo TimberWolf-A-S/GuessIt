@@ -81,32 +81,37 @@ function outputUsers(users) {
   });
 } 
 
+
 function outputScoreboard(users) {
   userScore.innerHTML = "";
 
   users.forEach((user) => {
     // if(li1 !== user.username) {
-    const li1 = document.createElement("li")
-    const li2 = document.createElement("li");
-    li1.innerText = user.username;
-    li2.setAttribute("id", user.username);
-    li2.innerText = user.score;
-    userScore.appendChild(li1);
-    scoreList.appendChild(li2);
+    if (document.getElementById(user.username)) {
+      console.log("already exist");
+    } else {
+      const li1 = document.createElement("li")
+      const li2 = document.createElement("li");
+      li1.innerText = user.username;
+      li2.setAttribute("id", user.username);
+      li2.innerText = user.score;
+      userScore.appendChild(li1);
+      scoreList.appendChild(li2);
+    }
   // }
   });
 }
 
-  socket.on('message', (message) => {
-    if(message.text === correctAnswer || message.text === theAnswerVariable){
-      let li2 = document.getElementById(users[0].username);
-      let tempScore = Number (li2.innerText);
-      tempScore++;
-      li2.innerText = tempScore;
-      console.log(tempScore);
-      // li2.innerText = user.score;
-    }
-  });
+  // socket.on('message', (message) => {
+  //   if(message.text === correctAnswer || message.text === theAnswerVariable){
+  //     let li2 = document.getElementById(users[0].username);
+  //     let tempScore = Number (li2.innerText);
+  //     tempScore++;
+  //     li2.innerText = tempScore;
+  //     console.log(tempScore);
+  //     // li2.innerText = user.score;
+  //   }
+  // });
 
 
 function playersInRoom(users) {
@@ -247,6 +252,14 @@ socket.on('test', (test) => {
 
 
 socket.on('scoreboard', (user) => {
-  let li = document.getElementById(user);
+  console.log(user.score);
+  let li = document.getElementById(user.username);
   li.innerText = Number(li.innerText) + 1;
+  // if (user.score == NaN || user.score == undefined || user.score == null) {
+  //   user.score = 0;
+  //   console.log("kørt");
+  // }
+  // user.score++;
+  // console.log(user.score);
+  // li.innerText = user.score;
 });

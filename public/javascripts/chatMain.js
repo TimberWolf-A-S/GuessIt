@@ -20,7 +20,7 @@ socket.emit("joinRoom", { username, room, score });
 socket.on("roomUsers", ({ room, users }) => {
   outputRoomName(room);
   outputUsers(users);
-  // outputScoreboard(users)
+  outputScoreboard(users);
 });
 
 socket.on("startButton", (users) => {
@@ -81,21 +81,25 @@ function outputUsers(users) {
   });
 } 
 
-// function outputScoreboard(users) {
-//   userScore.innerHTML = "";
+function outputScoreboard(users) {
+  userScore.innerHTML = "";
 
-//   users.forEach((user) => {
-//     if(li1 !== user.username) {
-//     const li1 = document.createElement("li")
-//     const li2 = document.createElement("li");
-//     li1.innerText = user.username;
-//     li2.setAttribute("id", user.username);
-//     li2.innerText = user.score;
-//     userScore.appendChild(li1);
-//     scoreList.appendChild(li2);
-//   }
-//   });
-// }
+  users.forEach((user) => {
+    // if(li1 !== user.username) {
+    if (document.getElementById(user.username)) {
+      console.log("already exist");
+    } else {
+      const li1 = document.createElement("li")
+      const li2 = document.createElement("li");
+      li1.innerText = user.username;
+      li2.setAttribute("id", user.username);
+      li2.innerText = user.score;
+      userScore.appendChild(li1);
+      scoreList.appendChild(li2);
+    }
+  // }
+  });
+}
 
   // socket.on('message', (message) => {
   //   if(message.text === correctAnswer){
@@ -221,6 +225,11 @@ socket.on('message', (message) => {
   } else {
     console.log('no craic');
   }
+  var x = document.getElementById("quack");
+  function playAudio() {
+    x.play();
+  }
+  playAudio();
 });
 
 
@@ -242,3 +251,18 @@ socket.on('test', (test) => {
   //}
   
 });
+
+
+socket.on('scoreboard', (user) => {
+  //console.log(user.score);
+  let li = document.getElementById(user.username);
+  li.innerText = Number(li.innerText) + 1;
+  // if (user.score == NaN || user.score == undefined || user.score == null) {
+  //   user.score = 0;
+  //   console.log("kørt");
+  // }
+  // user.score++;
+  // console.log(user.score);
+  // li.innerText = user.score;
+});
+

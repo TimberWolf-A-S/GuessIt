@@ -126,8 +126,9 @@ module.exports = function(app, server) {
 
       socket.on("correct", (msg) => {
         const user = getCurrentUser(socket.id);
+        console.log(user);
         io.to(user.room).emit("message", formatMessage(botName, msg));
-        io.to(user.room).emit("scoreboard", user.username);
+        io.to(user.room).emit("scoreboard", user);
       })
 
     });
