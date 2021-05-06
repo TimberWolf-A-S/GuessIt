@@ -13,6 +13,8 @@ module.exports = function(app, server) {
     userLeave,
     getRoomUsers,
   } = require("./utils/users");
+  const game = require("./utils/game");
+  //const image = require("./controllers/imageController");
 
   var indexRouter = require('./routes/index');
   var usersRouter = require('./routes/users');
@@ -62,17 +64,17 @@ module.exports = function(app, server) {
     res.render('error');
   });
 
-  const botName = "GuessIt";
+  const botName = "Gamemaster Johannes";
   let clients;
   var CountdownGoing = false;
   //Run when a client connects
   io.on("connection", (socket) => {
     socket.on("joinRoom", ({ username, room, score }) => {
-      const user = userJoin(socket.id, username, room, score);
+      const user = userJoin(socket.id, username, room, score, "neutral");
       socket.join(user.room);
 
-      //clients = socket.adapter.sids.size;
-      clients++;
+      clients = socket.adapter.sids.size;
+      //clients++;
       // let userArray = [];
       io.in(user.room).emit('connectedUser', `clients: ${clients} in room ${room}`);
       console.log(`clients: ${clients} in room ${room}`);
@@ -99,10 +101,18 @@ module.exports = function(app, server) {
           var CountdownGoing = false;
           clearInterval(Countdown);
         }
-      }, 1000);
+        }, 1000);
+        
+        io.to(user.room).emit("test", "horse");
+
       }
 
       ///////////
+
+
+
+
+
 
 
 
@@ -116,7 +126,8 @@ module.exports = function(app, server) {
 
       socket.on("correct", (msg) => {
         const user = getCurrentUser(socket.id);
-        io.to(user.room).emit("message", formatMessage(user.username, msg));
+        io.to(user.room).emit("message", formatMessage(botName, msg));
+        io.to(user.room).emit("scoreboard", user.username);
       })
 
     });
@@ -144,9 +155,12 @@ module.exports = function(app, server) {
           users: getRoomUsers(user.room),
         });
       }
-      if (true) {
-        io.to(user.room).emit("lmao");
-      } 
+      // if (true) {
+      //   // io.to(user.room).emit("lmao");
+      // } 
     });
+
+
+
   });
 }

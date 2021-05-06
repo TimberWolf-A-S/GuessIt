@@ -20,7 +20,7 @@ socket.emit("joinRoom", { username, room, score });
 socket.on("roomUsers", ({ room, users }) => {
   outputRoomName(room);
   outputUsers(users);
-  // outputScoreboard(users)
+  outputScoreboard(users);
 });
 
 socket.on("startButton", (users) => {
@@ -81,32 +81,32 @@ function outputUsers(users) {
   });
 } 
 
-// function outputScoreboard(users) {
-//   userScore.innerHTML = "";
+function outputScoreboard(users) {
+  userScore.innerHTML = "";
 
-//   users.forEach((user) => {
-//     if(li1 !== user.username) {
-//     const li1 = document.createElement("li")
-//     const li2 = document.createElement("li");
-//     li1.innerText = user.username;
-//     li2.setAttribute("id", user.username);
-//     li2.innerText = user.score;
-//     userScore.appendChild(li1);
-//     scoreList.appendChild(li2);
-//   }
-//   });
-// }
+  users.forEach((user) => {
+    // if(li1 !== user.username) {
+    const li1 = document.createElement("li")
+    const li2 = document.createElement("li");
+    li1.innerText = user.username;
+    li2.setAttribute("id", user.username);
+    li2.innerText = user.score;
+    userScore.appendChild(li1);
+    scoreList.appendChild(li2);
+  // }
+  });
+}
 
-  // socket.on('message', (message) => {
-  //   if(message.text === correctAnswer){
-  //     let li2 = document.getElementById(users[0].username);
-  //     let tempScore = Number (li2.innerText);
-  //     tempScore++;
-  //     li2.innerText = tempScore;
-  //     console.log(tempScore);
-  //     // li2.innerText = user.score;
-  //   }
-  // });
+  socket.on('message', (message) => {
+    if(message.text === correctAnswer || message.text === theAnswerVariable){
+      let li2 = document.getElementById(users[0].username);
+      let tempScore = Number (li2.innerText);
+      tempScore++;
+      li2.innerText = tempScore;
+      console.log(tempScore);
+      // li2.innerText = user.score;
+    }
+  });
 
 
 function playersInRoom(users) {
@@ -214,14 +214,14 @@ function theAnswer(answer) {
   theAnswerVariable = answer;
 }
 
-socket.on('message', (message) => {
-  if(message.text === correctAnswer || message.text === theAnswerVariable){
-    console.log('yay'); 
-    socket.emit('correct', 'Correct!');
-  } else {
-    console.log('no craic');
-  }
-});
+// socket.on('message', (message) => {
+//   if(message.text === correctAnswer || message.text === theAnswerVariable){
+//     console.log('yay'); 
+//     socket.emit('correct', 'Correct!');
+//   } else {
+//     console.log('no craic');
+//   }
+// });
 
 
 // socket.on('lmao', (lmao) => {
@@ -241,4 +241,12 @@ socket.on('test', (test) => {
   //  document.getElementById('correctAnswer').innerText = test;  
   //}
   
+});
+
+
+
+
+socket.on('scoreboard', (user) => {
+  let li = document.getElementById(user);
+  li.innerText = Number(li.innerText) + 1;
 });
