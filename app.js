@@ -64,6 +64,7 @@ module.exports = function(app, server) {
 
   const botName = "GuessIt";
   let clients;
+  var CountdownGoing = false;
   //Run when a client connects
   io.on("connection", (socket) => {
     socket.on("joinRoom", ({ username, room, score }) => {
@@ -87,16 +88,18 @@ module.exports = function(app, server) {
 
         //// TIMER////////
       var counter = 60;
-        if (clients == 8) {
-          var Countdown = setInterval(function(){
-          io.sockets.emit('counter', counter);
-          counter--
-          if (counter === 0) {
-            io.sockets.emit('counter', "TIME IS UP!!");
-            clearInterval(Countdown);
-          }
-        }, 1000);
+      if (clients >= 2 && CountdownGoing != true) {
+        var CountdownGoing = true;
+        var Countdown = setInterval(function(){
+        io.sockets.emit('counter', counter);
+        counter--
+        if (counter === 0) {
+          io.sockets.emit('counter', "TIME IS UP!!");
+          var CountdownGoing = false;
+          clearInterval(Countdown);
         }
+      }, 1000);
+      }
 
       ///////////
 
@@ -140,6 +143,9 @@ module.exports = function(app, server) {
           users: getRoomUsers(user.room),
         });
       }
+      if (true) {
+        io.to(user.room).emit("lmao");
+      } 
     });
   });
 }

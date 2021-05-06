@@ -130,7 +130,7 @@ function enableStartButton(users) {
   
   const button = document.getElementById("start-btn");
   if(button !== null){
-  if (players.length == 4) {
+  if (players.length == 2) {
     button.disabled = false;
     //let randomnum = Math.floor(Math.random()*4);
     //console.log(randomnum);
@@ -155,6 +155,12 @@ function enableStartButton(users) {
 
 socket.on('counter', function(count) {
   //$('#messages').append($('<li>').text(count));
+  if (document.getElementById("counter") != null) {
+    document.getElementById("counter").innerText = count;
+  } else {
+    console.log("Counter element not found");
+  }
+  console.log("COUNTER");
   console.log(count);
 });
     
@@ -174,7 +180,7 @@ function quack() {
 
 function start() {
   location.href = `/game/helper?username=${username}&room=${room}`;  
-}
+} 
 
 function start2() {
   location.href = `/game/guesser?username=${username}&room=${room}`;  
@@ -188,9 +194,21 @@ socket.on('connectedUser', message => {
   console.log(message);
 });
 
-let correctAnswer = document.getElementById('correctAnswer').innerText;
-console.log(correctAnswer);
-
+let correctAnswer = "placeholder";
+//Kun helper
+if (document.getElementById('correctAnswer') != null) {
+  let correctAnswer = document.getElementById('correctAnswer').innerText;
+} else {
+  //console.log("NULLBOI")
+  let correctAnswer = "secretsauce";
+}
+// if (document.getElementById('correctAnswer') == null) {
+//   let correctAnswer = document.getElementById('correctAnswer').innerText;  
+//   console.log(correctAnswer);
+//   console.log("HELLO");
+// } else {
+//   console.log("correctAnswer not found. Are you helper?");
+// }
 
 socket.on('message', (message) => {
   if(message.text === correctAnswer){
@@ -199,4 +217,10 @@ socket.on('message', (message) => {
   } else {
     console.log('no craic');
   }
+});
+
+
+socket.on('lmao', (lmao) => {
+  console.log("lmao");
+  location.href = `/game?username=${username}&room=${room}`;
 });

@@ -61,6 +61,16 @@
           <li id="footerlist"><a href="">About Us</a></li>
           <li id="footerlist"><a href="">Contact Us</a></li>
           <li id="footerlist"><a href="">Privacy</a></li>
+          <li id="footerlist"><button onclick="mute()">Mute</button></li>
+          <script type="text/javascript">
+            function mute() {
+              if (document.getElementById("myAudio").muted == true) {
+                document.getElementById("myAudio").muted = false;
+              } else {
+                document.getElementById("myAudio").muted = true;
+              }
+            }
+          </script>
         </ul>
       </nav>
     </footer>
