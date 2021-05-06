@@ -70,7 +70,8 @@ module.exports = function(app, server) {
       const user = userJoin(socket.id, username, room, score);
       socket.join(user.room);
 
-      clients = +socket.adapter.sids.size;
+      //clients = socket.adapter.sids.size;
+      clients++;
       // let userArray = [];
       io.in(user.room).emit('connectedUser', `clients: ${clients} in room ${room}`);
       console.log(`clients: ${clients} in room ${room}`);
@@ -128,7 +129,7 @@ module.exports = function(app, server) {
     // Runs when client disconnects
     socket.on("disconnect", () => {
       const user = userLeave(socket.id);
-
+      clients--;
       if (user) {
         io.to(user.room).emit(
           "message",
