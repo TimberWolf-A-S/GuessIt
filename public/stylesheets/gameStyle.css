@@ -5,6 +5,27 @@
   src: local("Kollektif Regular"), url("Kollektif.woff") format("woff");
 }
 
+#yourTurnH2 {
+  text-align: center;
+  font-size: 50px;
+  color:white;
+  font-family: Kollektif Regular;
+}
+
+#yourTurnH3 {
+  text-align: center;
+  font-size: 25px;
+  color: white;
+  font-family: Kollektif Regular;
+}
+
+#counter {
+  font-size: 1.5em;
+  font-family: Kollektif Regular;
+  text-align: center;
+  padding: 5px;
+}
+
 /* Responsive */
 .flex-container {
   display: flex;
@@ -23,10 +44,23 @@
 
 .scoreboard {
   display: flex;
+  display: inline-block;
+  padding: 5px;
 }
 .scoreboard-wrapper {
   justify-content: start;
   vertical-align: text-top;
+  display: inline-block;
+  background-color: white;
+  width: 130%;
+  border-style: solid;
+  text-align: center;
+  padding: 5px;
+}
+
+#scoreboardP {
+  font-size: larger;
+  font-family: Kollektif Regular;
 }
 
 #imageAnswer {
@@ -38,6 +72,7 @@
 }
 
 .answer {
+  text-align: center;
   font-size: large;
   font-family: Kollektif Regular;
 }

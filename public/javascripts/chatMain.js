@@ -3,7 +3,8 @@ const chatMessages = document.querySelector(".chat-messages");
 const roomName = document.getElementById("room-name");
 const userList = document.getElementById("users");
 const scoreList = document.getElementById("score");
-const userScore = document.getElementById("userScore")
+const userScore = document.getElementById("userScore");
+let counter = document.getElementById("counter");
 
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
@@ -154,10 +155,12 @@ function enableStartButton(users) {
 }
 }
 
+
+
 socket.on('counter', function(count) {
   //$('#messages').append($('<li>').text(count));
-  if (document.getElementById("counter") != null) {
-    document.getElementById("counter").innerText = count;
+  if (counter != null) {
+    counter.innerText = count;
   } // else {
     //console.log("Counter element not found");
   // }

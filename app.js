@@ -23,7 +23,7 @@ module.exports = function(app, server) {
 
   //Set up mongoose connection
   let mongoose = require("mongoose");
-  let dev_db_url = `mongodb+srv://Timberwolves:Timberwolves123@cluster0.3ilbb.mongodb.net/GuessIt?retryWrites=true&w=majority`;
+  const dev_db_url = `mongodb+srv://Timberwolves:Timberwolves123@cluster0.3ilbb.mongodb.net/GuessIt?retryWrites=true&w=majority`;
   let mongoDB = process.env.MONGODB_URI || dev_db_url;
   mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
   let db = mongoose.connection;
@@ -64,7 +64,7 @@ module.exports = function(app, server) {
     res.render('error');
   });
 
-  const botName = "Gamemaster Johannes";
+  const botName = "GuessIt";
   let clients;
   let CountdownGoing = false;
   //Run when a client connects
@@ -102,11 +102,8 @@ module.exports = function(app, server) {
           clearInterval(Countdown);
         }
         }, 1000);
-        
-        io.to(user.room).emit("test", "horse");
 
       }
-
       ///////////
 
 
