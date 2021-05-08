@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="shortcut icon" type="image/jpg" href="/favicon_io/favicon-32x32.png"/>
+    <link rel="shortcut icon" type="image/jpg" href="/favicon_io/favicon-32x32.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link
@@ -11,7 +11,7 @@
       integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
       crossorigin="anonymous"
     />
-    <link rel='stylesheet' href='/stylesheets/footerStyle.css' />
+    <link rel="stylesheet" href="/stylesheets/footerStyle.css" />
     <link rel="stylesheet" href="/stylesheets/lobbyStyle.css" />
     <title>GuessIt</title>
   </head>
@@ -29,41 +29,28 @@
         <form>
           <div class="form-control">
             <label for="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              placeholder="Enter username..."
-              required
-            />
+            <input type="text" name="username" id="username" placeholder="Enter username..." required />
           </div>
           <div class="form-control">
             <label for="room">Room</label>
             <select name="room" id="room">
-              <option value="Room 1">Room 1</option>
-              <option value="Room 2">Room 2</option>
-              <option value="Room 3">Room 3</option>
-              <option value="Room 4">Room 4</option>
-              <option value="Room 5">Room 5</option>
-              <option value="Room 6">Room 6</option>
+              <% room_list.forEach(function(room){ %>
+              <option value="<%= room.name %>"><%= room.name %></option>
+              <% }) %>
             </select>
           </div>
-          <button type="submit" class="btn" formaction="/game">
-            Join Game
-          </button>
+          <button type="submit" class="btn" formaction="/game">Join Game</button>
         </form>
       </main>
     </div>
     <footer>
-
       <nav>
-          <ul>
-            <li id="footerlist"><a href="">About Us</a></li>
-            <li id="footerlist"><a href="">Contact Us</a></li>
-            <li id="footerlist"><a href="">Privacy</a></li>
-          </ul>
+        <ul>
+          <li id="footerlist"><a href="">About Us</a></li>
+          <li id="footerlist"><a href="">Contact Us</a></li>
+          <li id="footerlist"><a href="">Privacy</a></li>
+        </ul>
       </nav>
-
-  </footer>
+    </footer>
   </body>
 </html>
