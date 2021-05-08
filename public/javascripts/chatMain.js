@@ -81,8 +81,11 @@ function outputUsers(users) {
   });
 } 
 
+
 function outputScoreboard(users) {
+  if(scoreList !== null && userScore !== null){
   userScore.innerHTML = "";
+  
 
   users.forEach((user) => {
     // if(li1 !== user.username) {
@@ -99,6 +102,7 @@ function outputScoreboard(users) {
     }
   // }
   });
+}
 }
 
   // socket.on('message', (message) => {
@@ -129,19 +133,12 @@ function playersInRoom(users) {
 
 function enableStartButton(users) {
   let players = playersInRoom(users);
-  console.log('Hello1');
   console.log(players);
-    
 
-  
   const button = document.getElementById("start-btn");
   if(button !== null){
   if (players.length == 2) {
     button.disabled = false;
-    //let randomnum = Math.floor(Math.random()*4);
-    //console.log(randomnum);
-    //let chosenOne = players[randomnum];
-    //if (username == chosenOne)
     if (username == players[0]) {
       start2(users);  
     } else {
@@ -161,9 +158,9 @@ socket.on('counter', function(count) {
   //$('#messages').append($('<li>').text(count));
   if (document.getElementById("counter") != null) {
     document.getElementById("counter").innerText = count;
-  } else {
-    console.log("Counter element not found");
-  }
+  } // else {
+    //console.log("Counter element not found");
+  // }
   //console.log("COUNTER");
   //console.log(count);
 });
@@ -198,13 +195,10 @@ socket.on('connectedUser', message => {
   console.log(message);
 });
 
-let correctAnswer = 0;
+let correctAnswer = document.getElementById('correctAnswer');
 //Kun helper
-if (document.getElementById('correctAnswer') != null) {
-  let correctAnswer = document.getElementById('correctAnswer').innerText;
-} else {
-  //console.log("NULLBOI")
-  let correctAnswer = "secretsauce";
+if (correctAnswer !== null) {
+  correctAnswer = correctAnswer.innerText;
 }
 // if (document.getElementById('correctAnswer') == null) {
 //   let correctAnswer = document.getElementById('correctAnswer').innerText;  
@@ -219,38 +213,27 @@ function theAnswer(answer) {
 }
 
 socket.on('message', (message) => {
-  if(message.text === correctAnswer || message.text === theAnswerVariable){
+  if(message.text === correctAnswer){
     console.log('yay'); 
     socket.emit('correct', 'Correct!');
   } else {
     console.log('no craic');
   }
-  var x = document.getElementById("quack");
-  function playAudio() {
-    x.play();
-  }
-  playAudio();
 });
 
-
-// socket.on('lmao', (lmao) => {
-//   console.log("lmao");
-//   location.href = `/game?username=${username}&room=${room}`;
-// });
-
-socket.on('test', (test) => {
-  console.log(test);
-  if (document.getElementById('correctAnswer')) {
-    console.log("TRUE");
-    document.getElementById('correctAnswer').innerText = test;  
-  }
-  theAnswer(test);
-  //let banan = (location.href == `/game/helper?username=${username}&room=${room}`);
-  //if (banan == true) {
-  //  document.getElementById('correctAnswer').innerText = test;  
-  //}
+// socket.on('test', (test) => {
+//   console.log(test);
+//   if (document.getElementById('correctAnswer')) {
+//     console.log("TRUE");
+//     document.getElementById('correctAnswer').innerText = test;  
+//   }
+//   theAnswer(test);
+//   //let banan = (location.href == `/game/helper?username=${username}&room=${room}`);
+//   //if (banan == true) {
+//   //  document.getElementById('correctAnswer').innerText = test;  
+//   //}
   
-});
+// });
 
 
 socket.on('scoreboard', (user) => {
