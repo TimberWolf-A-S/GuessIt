@@ -13,7 +13,7 @@ module.exports = function(app, server) {
     userLeave,
     getRoomUsers,
   } = require("./utils/users");
-  const game = require("./utils/game");
+  // const game = require("./utils/game");
   //const image = require("./controllers/imageController");
 
   var indexRouter = require('./routes/index');
@@ -66,7 +66,8 @@ module.exports = function(app, server) {
 
   const botName = "GuessIt";
   let clients;
-  let CountdownGoing = false;
+  let countdownGoing = false;
+
   //Run when a client connects
   io.on("connection", (socket) => {
     socket.on("joinRoom", ({ username, room, score }) => {
@@ -74,11 +75,11 @@ module.exports = function(app, server) {
       socket.join(user.room);
 
       clients = socket.adapter.sids.size;
-      //clients++;
-      // let userArray = [];
+
       io.in(user.room).emit('connectedUser', `clients: ${clients} in room ${room}`);
       console.log(`clients: ${clients} in room ${room}`);
       
+      // Welcome Message to new user
       socket.emit("message", formatMessage(botName, `Welcome to GuessIt ${username}`));
 
       // Broadcast when a user connect
@@ -89,22 +90,20 @@ module.exports = function(app, server) {
           formatMessage(botName, `${user.username} has joined the chat`)
         );
 
-        //// TIMER////////
+        // Timer
       let counter = 60;
-      if (clients >= 2 && CountdownGoing != true) {
-        CountdownGoing = true;
-        let Countdown = setInterval(function(){
+      if (clients >= 2 && countdownGoing != true) {
+        countdownGoing = true;
+        let countdown = setInterval(function(){
         io.sockets.emit('counter', counter);
         counter--
         if (counter === 0) {
           io.sockets.emit('counter', "TIME IS UP!!");
-          CountdownGoing = false;
-          clearInterval(Countdown);
+          countdownGoing = false;
+          clearInterval(countdown);
         }
         }, 1000);
-
       }
-      ///////////
 
 
       // Send users and room info
@@ -115,11 +114,15 @@ module.exports = function(app, server) {
 
       io.to(user.room).emit("startButton", getRoomUsers(user.room));
 
+      // Listen for correct answer and updates scoreboard
       socket.on("correct", (msg) => {
         const user = getCurrentUser(socket.id);
         console.log(user);
+        // Points will only be given if the answer has arrived before the timer runs out
+        if(countdownGoing == true){
         io.to(user.room).emit("message", formatMessage(botName, msg));
-        io.to(user.room).emit("scoreboard", user);
+        io.to(user.room).emit("updateScoreboard", user);
+        }
       })
 
     });

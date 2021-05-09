@@ -4,6 +4,8 @@ const roomName = document.getElementById("room-name");
 const userList = document.getElementById("users");
 const scoreList = document.getElementById("score");
 const userScore = document.getElementById("userScore");
+let myAudio = document.getElementById("myAudio");
+let correctAnswer = document.getElementById('correctAnswer');
 let counter = document.getElementById("counter");
 
 // Get username and room from URL
@@ -11,6 +13,7 @@ const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 });
 
+// Requirung socket.io
 const socket = io();
 
 // Join chatRoom
@@ -24,6 +27,7 @@ socket.on("roomUsers", ({ room, users }) => {
   outputScoreboard(users);
 });
 
+// Start button from the game waiting room
 socket.on("startButton", (users) => {
   enableStartButton(users);
 });
@@ -82,11 +86,10 @@ function outputUsers(users) {
   });
 } 
 
-
+// Creating the scoreboard with usernames and a score at 0
 function outputScoreboard(users) {
   if(scoreList !== null && userScore !== null){
   userScore.innerHTML = "";
-  
 
   users.forEach((user) => {
     // if(li1 !== user.username) {
@@ -118,68 +121,63 @@ function outputScoreboard(users) {
   // });
 
 
-function playersInRoom(users) {
-  let playersInRoom = [];
+  // Checking how many users are currently in the room
+function usersInRoom(users) {
+  let usersInRoom = [];
   let i = 0;
   users.forEach((user) => {
-    playersInRoom[i] = user.username;
+    usersInRoom[i] = user.username;
     i++;
   });
-  return playersInRoom;
+  return usersInRoom;
 }
 
-// Random Number -> Chosen One
-
-
-
+// Uses the userInRoom function. If there are less users in room than required, nothing will happen when pressing the start button
 function enableStartButton(users) {
-  let players = playersInRoom(users);
-  console.log(players);
+  let user = usersInRoom(users);
+  console.log(user);
 
   const button = document.getElementById("start-btn");
   if(button !== null){
-  if (players.length == 2) {
+  if (user.length == 2) {
     button.disabled = false;
-    if (username == players[0]) {
-      start2(users);  
+    // The first user in the array will be the guesser
+    if (username == user[0]) {
+      start2(users); 
+    // All other users will be helper 
     } else {
       start(users);
     }
-    
     console.log("Test succes"); 
   } else {
-    button.disabled = false;
+    button.disabled = true;
 
     console.log("Test failed");
   }
 }
 }
 
-
-
-socket.on('counter', function(count) {
-  //$('#messages').append($('<li>').text(count));
-  if (counter != null) {
-    counter.innerText = count;
-  } // else {
-    //console.log("Counter element not found");
-  // }
-  //console.log("COUNTER");
-  //console.log(count);
-});
-    
-
-
-function leaveRoom() {
-  location.href = "/lobby";
+// Sound used if players try to press start button before it is enabled
+function quack() {
+  var quack = document.getElementById("quack");
+  function playAudio() {
+    quack.play();
+  }
+  playAudio();
 }
 
-function quack() {
-      var quack = document.getElementById("quack");
-      function playAudio() {
-        quack.play();
-      }
-      playAudio();
+//Mute button for the background music
+function mute() {
+  if (myAudio.muted == true) {
+    myAudio.muted = false;
+  } else {
+    myAudio.muted = true;
+  }
+}
+    
+// All users can at any point leave the room and be taken back to the lobby
+function leaveRoom() {
+  location.href = "/lobby";
 }
 
 function start() {
@@ -189,32 +187,25 @@ function start() {
 function start2() {
   location.href = `/game/guesser?username=${username}&room=${room}+Game`;  
 }
-/* 
-socket.on('connectedUser', connectedUser => {
-  console.log(connectedUser);
-}); */
 
-socket.on('connectedUser', message => {
-  console.log(message);
+// Timer
+socket.on('counter', function(count) {
+  //$('#messages').append($('<li>').text(count));
+  if (counter != null) {
+    counter.innerText = count;
+  }
 });
 
-let correctAnswer = document.getElementById('correctAnswer');
-//Kun helper
+// socket.on('connectedUser', message => {
+//   console.log(message);
+// });
+
+//Only check if correct answer exists on the helper page
 if (correctAnswer !== null) {
   correctAnswer = correctAnswer.innerText;
 }
-// if (document.getElementById('correctAnswer') == null) {
-//   let correctAnswer = document.getElementById('correctAnswer').innerText;  
-//   console.log(correctAnswer);
-//   console.log("HELLO");
-// } else {
-//   console.log("correctAnswer not found. Are you helper?");
-// }
-let theAnswerVariable;
-function theAnswer(answer) {
-  theAnswerVariable = answer;
-}
 
+// If the users answers correctly a message will appear in the chat
 socket.on('message', (message) => {
   if(message.text === correctAnswer){
     console.log('yay'); 
@@ -224,22 +215,8 @@ socket.on('message', (message) => {
   }
 });
 
-// socket.on('test', (test) => {
-//   console.log(test);
-//   if (document.getElementById('correctAnswer')) {
-//     console.log("TRUE");
-//     document.getElementById('correctAnswer').innerText = test;  
-//   }
-//   theAnswer(test);
-//   //let banan = (location.href == `/game/helper?username=${username}&room=${room}`);
-//   //if (banan == true) {
-//   //  document.getElementById('correctAnswer').innerText = test;  
-//   //}
-  
-// });
-
-
-socket.on('scoreboard', (user) => {
+// The score is updated
+socket.on('updateScoreboard', (user) => {
   //console.log(user.score);
   let li = document.getElementById(user.username);
   li.innerText = Number(li.innerText) + 1;
