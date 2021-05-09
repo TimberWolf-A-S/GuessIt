@@ -52,5 +52,25 @@
         </ul>
       </nav>
     </footer>
+
+    <script>
+      function add(username, room) {
+        let express = require('express');
+        let router = express.Router();
+        let User = require('../models/userModel');
+
+        console.log('Username: ', username);
+        console.log('Room: ', room);
+
+        router.post('/game', async (req, res) => {
+          const user = new User({
+            userName: username,
+            score: 0,
+          });
+          await user.save();
+          res.send(user);
+        });
+      }
+    </script>
   </body>
 </html>
