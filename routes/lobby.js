@@ -15,18 +15,4 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.post('/', function (req, res, next) {
-  const user = new User({
-    username: req.body.username,
-    room: req.body.room,
-    score: 0,
-  });
-  user
-    .save()
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((err) => console.log(err));
-});
-
 module.exports = router;
