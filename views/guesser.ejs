@@ -2,7 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="shortcut icon" type="image/jpg" href="/favicon_io/favicon-32x32.png"/>
+    <link
+      rel="shortcut icon"
+      type="image/jpg"
+      href="/favicon_io/favicon-32x32.png"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link
@@ -12,7 +16,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/stylesheets/footerStyle.css" />
-    <link rel="stylesheet" href="/stylesheets/gameStyle.css">
+    <link rel="stylesheet" href="/stylesheets/gameStyle.css" />
     <link rel="stylesheet" href="/stylesheets/chatStyle.css" />
     <title>GuessIt</title>
   </head>
@@ -25,8 +29,8 @@
     <h2 id="counter"></h2>
     <ul class="flex-container">
       <div class="flex-item">
-    <div class="grid-container col-4">
-        <div class="scoreboard-wrapper">
+        <div class="grid-container col-4">
+          <div class="scoreboard-wrapper">
             <p id="scoreboardP">Scoareboard</p>
             <ul class="scoreboard">
               <li class="scoreboard">
@@ -46,36 +50,38 @@
         <h3 id="yourTurnH3">Write your guess in the chat box</h3>
       </div>
       <div class="flex-item">
-    <div class="chat-container">
-      <header class="chat-header">
-        <h3><i class="fas"></i> Game Chat</h3>
-        <button id="leave-btn" class="btn" onclick="leaveRoom()">
-          Leave Room
-        </button>
-      </header>
-      <main class="chat-main">
-        <div class="chat-sidebar">
-          <h3><i class="fas fa-comments"></i> Room Name:</h3>
-          <h2 id="room-name"></h2>
-          <h3><i class="fas fa-users"></i> Users</h3>
-          <ul id="users"></ul>
+        <div class="chat-container">
+          <header class="chat-header">
+            <h3><i class="fas"></i> Game Chat</h3>
+            <button id="leave-btn" class="btn" onclick="leaveRoom()">
+              Leave Room
+            </button>
+          </header>
+          <main class="chat-main">
+            <div class="chat-sidebar">
+              <h3><i class="fas fa-comments"></i> Room Name:</h3>
+              <h2 id="room-name"></h2>
+              <h3><i class="fas fa-users"></i> Users</h3>
+              <ul id="users"></ul>
+            </div>
+            <div class="chat-messages"></div>
+          </main>
+          <div class="chat-form-container">
+            <form id="chat-form">
+              <input
+                id="msg"
+                type="text"
+                placeholder="Enter Message"
+                required
+                autocomplete="off"
+              />
+              <button class="btn">
+                <i class="fas fa-paper-plane"></i> Send
+              </button>
+            </form>
+          </div>
         </div>
-        <div class="chat-messages"></div>
-      </main>
-      <div class="chat-form-container">
-        <form id="chat-form">
-          <input
-            id="msg"
-            type="text"
-            placeholder="Enter Message"
-            required
-            autocomplete="off"
-          />
-          <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
-        </form>
       </div>
-    </div>
-  </div>
     </ul>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
@@ -93,6 +99,5 @@
     </footer>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/chatMain.js"></script>
-    <script src="/javascripts/guessWord.js"></script>
   </body>
 </html>

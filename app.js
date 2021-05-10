@@ -21,6 +21,8 @@ module.exports = function(app, server) {
   var gameRouter = require('./routes/game');
   var lobbyRouter = require('./routes/lobby');
 
+  let UserData = require('./models/userModel');
+
   //Set up mongoose connection
   let mongoose = require("mongoose");
   const dev_db_url = `mongodb+srv://Timberwolves:Timberwolves123@cluster0.3ilbb.mongodb.net/GuessIt?retryWrites=true&w=majority`;
@@ -72,6 +74,16 @@ module.exports = function(app, server) {
   io.on("connection", (socket) => {
     socket.on("joinRoom", ({ username, room, score }) => {
       const user = userJoin(socket.id, username, room, score, "neutral");
+
+      let userForm = {
+        username: username, 
+        room: room,
+        score: 0,
+      }
+
+      let data = new UserData(userForm);
+      data.save();
+
       socket.join(user.room);
 
       clients = socket.adapter.sids.size;
