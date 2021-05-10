@@ -5,14 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var socketIo = require('socket.io');
 
-module.exports = function(app, server) {
-  const formatMessage = require("./utils/messages");
-  const {
-    userJoin,
-    getCurrentUser,
-    userLeave,
-    getRoomUsers,
-  } = require("./utils/users");
+module.exports = function (app, server) {
+  const formatMessage = require('./utils/messages');
+  const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./utils/users');
   // const game = require("./utils/game");
   //const image = require("./controllers/imageController");
 
@@ -22,15 +17,15 @@ module.exports = function(app, server) {
   var lobbyRouter = require('./routes/lobby');
 
   let UserData = require('./models/userModel');
+  let RoomData = require('./models/roomModel');
 
   //Set up mongoose connection
-  let mongoose = require("mongoose");
+  let mongoose = require('mongoose');
   const dev_db_url = `mongodb+srv://Timberwolves:Timberwolves123@cluster0.3ilbb.mongodb.net/GuessIt?retryWrites=true&w=majority`;
   let mongoDB = process.env.MONGODB_URI || dev_db_url;
   mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
   let db = mongoose.connection;
-  db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
+  db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
   // view engine setup
   app.set('views', path.join(__dirname, 'views'));
@@ -48,15 +43,13 @@ module.exports = function(app, server) {
   app.use('/game', gameRouter);
   app.use('/lobby', lobbyRouter);
 
-
-
   // catch 404 and forward to error handler
-  app.use(function(req, res, next) {
+  app.use(function (req, res, next) {
     next(createError(404));
   });
 
   // error handler
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -66,105 +59,133 @@ module.exports = function(app, server) {
     res.render('error');
   });
 
-  const botName = "GuessIt";
+  const botName = 'GuessIt';
   let clients;
   let countdownGoing = false;
 
   //Run when a client connects
-  io.on("connection", (socket) => {
-    socket.on("joinRoom", ({ username, room, score }) => {
-      const user = userJoin(socket.id, username, room, score, "neutral");
+  io.on('connection', (socket) => {
+    socket.on('joinRoom', ({ username, room, score }) => {
+      const user = userJoin(socket.id, username, room, score, 'neutral');
+      const userObj = getCurrentUser(socket.id);
 
+      // CREATE USER IN BE
       let userForm = {
-        username: username, 
+        username: username,
         room: room,
         score: 0,
-      }
+        role: 'Guesser',
+      };
 
       let data = new UserData(userForm);
       data.save();
 
-      socket.join(user.room);
+      // Create Instance of User FE
+      UserData.find({})
+        .exec()
+        .then((docs) => {
+          console.log('INS: ', userObj.username);
+          console.log('DOC', docs);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
+      socket.join(user.room);
       clients = socket.adapter.sids.size;
 
       io.in(user.room).emit('connectedUser', `clients: ${clients} in room ${room}`);
       console.log(`clients: ${clients} in room ${room}`);
-      
+
       // Welcome Message to new user
-      socket.emit("message", formatMessage(botName, `Welcome to GuessIt ${username}`));
+      socket.emit('message', formatMessage(botName, `Welcome to GuessIt ${username}`));
 
       // Broadcast when a user connect
-      socket.broadcast
-        .to(user.room)
-        .emit(
-          "message",
-          formatMessage(botName, `${user.username} has joined the chat`)
-        );
+      socket.broadcast.to(user.room).emit('message', formatMessage(botName, `${user.username} has joined the chat`));
 
-        // Timer
+      // Timer
       let counter = 60;
       if (clients >= 2 && countdownGoing != true) {
         countdownGoing = true;
-        let countdown = setInterval(function(){
-        io.sockets.emit('counter', counter);
-        counter--
-        if (counter === 0) {
-          io.sockets.emit('counter', "TIME IS UP!!");
-          countdownGoing = false;
-          clearInterval(countdown);
-        }
+        let countdown = setInterval(function () {
+          io.sockets.emit('counter', counter);
+          counter--;
+          if (counter === 0) {
+            io.sockets.emit('counter', 'TIME IS UP!!');
+            countdownGoing = false;
+            clearInterval(countdown);
+          }
         }, 1000);
       }
 
-
       // Send users and room info
-      io.to(user.room).emit("roomUsers", {
+      io.to(user.room).emit('roomUsers', {
         room: user.room,
         users: getRoomUsers(user.room),
       });
 
-      io.to(user.room).emit("startButton", getRoomUsers(user.room));
+      io.to(user.room).emit('startButton', getRoomUsers(user.room));
 
       // Listen for correct answer and updates scoreboard
-      socket.on("correct", (msg) => {
+      socket.on('correct', (msg) => {
         const user = getCurrentUser(socket.id);
         console.log(user);
         // Points will only be given if the answer has arrived before the timer runs out
-        if(countdownGoing == true){
-        io.to(user.room).emit("message", formatMessage(botName, msg));
-        io.to(user.room).emit("updateScoreboard", user);
+        if (countdownGoing == true) {
+          io.to(user.room).emit('message', formatMessage(botName, msg));
+          io.to(user.room).emit('updateScoreboard', user);
         }
-      })
-
+      });
     });
 
     // Listen for chatMesssage
-    socket.on("chatMessage", (msg) => {
+    socket.on('chatMessage', (msg) => {
       const user = getCurrentUser(socket.id);
 
-      io.to(user.room).emit("message", formatMessage(user.username, msg));
-
+      io.to(user.room).emit('message', formatMessage(user.username, msg));
     });
 
     // Runs when client disconnects
-    socket.on("disconnect", () => {
+    socket.on('disconnect', () => {
       const user = userLeave(socket.id);
+
+      // FINDS AND DELETES THE USER FROM DB WHEN LEAVING GAME.
+      UserData.find({ username: user.username })
+        .exec()
+        .then((docs) => {
+          const id = docs[0]._id;
+
+          UserData.deleteOne({ _id: id }).exec();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       clients--;
       if (user) {
-        io.to(user.room).emit(
-          "message",
-          formatMessage(botName, `${user.username} has left the chat`)
-        );
+        io.to(user.room).emit('message', formatMessage(botName, `${user.username} has left the chat`));
         // Send users and room info
-        io.to(user.room).emit("roomUsers", {
+        io.to(user.room).emit('roomUsers', {
           room: user.room,
           users: getRoomUsers(user.room),
         });
       }
     });
 
+    function GetUserById(id) {
+      UserData.findById({ id }).exec();
+    }
 
-
+    function GetUserByUserName(username) {
+      // UserData.find({ username: username })
+      //   .exec()
+      //   .then((docs) => {
+      //     const id = docs[0]._id;
+      //     UserData.remove({ _id: id }).exec();
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+    }
   });
-}
+};

@@ -181,11 +181,11 @@ function leaveRoom() {
 }
 
 function start() {
-  location.href = `/game/helper?username=${username}&room=${room}+Game`;  
+  location.href = `/game/helper?username=${username}&room=${room}`;  
 } 
 
 function start2() {
-  location.href = `/game/guesser?username=${username}&room=${room}+Game`;  
+  location.href = `/game/guesser?username=${username}&room=${room}`;  
 }
 
 // Timer
