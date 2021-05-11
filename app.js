@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var socketIo = require('socket.io');
+const { doesNotMatch } = require('assert');
 
 module.exports = function (app, server) {
   const formatMessage = require('./utils/messages');
@@ -67,7 +68,7 @@ module.exports = function (app, server) {
   io.on('connection', (socket) => {
     socket.on('joinRoom', ({ username, room, score }) => {
       const user = userJoin(socket.id, username, room, score, 'neutral');
-      const userObj = getCurrentUser(socket.id);
+      // const userObj = getCurrentUser(socket.id);
 
       // CREATE USER IN BE
       let userForm = {
@@ -78,18 +79,25 @@ module.exports = function (app, server) {
       };
 
       let data = new UserData(userForm);
-      data.save();
-
-      // Create Instance of User FE
-      UserData.find({})
+      data.save().then(() => {
+        // Create Instance of User FE
+        UserData.find({username: user.username})
         .exec()
         .then((docs) => {
-          console.log('INS: ', userObj.username);
+          console.log('INS: ', user.username);
           console.log('DOC', docs);
+          RoomData.updateOne(
+            { $push: { currentMembers: docs } 
+          })
         })
         .catch((err) => {
           console.log(err);
-        });
+        })
+      }).catch((err) => {
+        console.log(err);
+      });
+
+      
 
       socket.join(user.room);
       clients = socket.adapter.sids.size;
