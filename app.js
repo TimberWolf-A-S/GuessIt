@@ -79,25 +79,33 @@ module.exports = function (app, server) {
       };
 
       let data = new UserData(userForm);
-      data.save().then(() => {
-        // Create Instance of User FE
-        UserData.find({username: user.username})
-        .exec()
-        .then((docs) => {
-          console.log('INS: ', user.username);
-          console.log('DOC', docs);
-          RoomData.updateOne(
-            { $push: { currentMembers: docs } 
-          })
+      data
+        .save()
+        .then(() => {
+          // Create Instance of User FE
+          UserData.find({ username: user.username })
+            .exec()
+            .then((docs) => {
+              const userdocument = docs[0];
+
+              RoomData.find({ name: room })
+                .exec()
+                .then((r) => {
+                  const roomid = r[0]._id;
+                  const userId = userdocument.id;
+                  console.log('ROOM ID: ', roomid);
+
+                  RoomData.updateOne({ _id: roomid }, { $push: { currentMembers: [userId] } }).exec();
+                });
+            })
+            // .then(() => {})
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((err) => {
           console.log(err);
-        })
-      }).catch((err) => {
-        console.log(err);
-      });
-
-      
+        });
 
       socket.join(user.room);
       clients = socket.adapter.sids.size;
@@ -161,9 +169,23 @@ module.exports = function (app, server) {
       UserData.find({ username: user.username })
         .exec()
         .then((docs) => {
+          const userDoc = docs[0];
           const id = docs[0]._id;
 
-          UserData.deleteOne({ _id: id }).exec();
+          RoomData.find({ name: user.room })
+            .exec()
+            .then((r) => {
+              const roomDoc = r[0];
+              const userId = userDoc._id;
+
+              console.log('DEL USER ID: ', userId);
+              console.log('DEL Room ID: ', roomDoc._id);
+
+              RoomData.updateOne({ _id: roomDoc._id }, { $pull: { currentMembers: { $in: `${userId}` } } }).exec();
+            })
+            .then(() => {
+              UserData.deleteOne({ _id: id }).exec();
+            });
         })
         .catch((err) => {
           console.log(err);
@@ -179,21 +201,5 @@ module.exports = function (app, server) {
         });
       }
     });
-
-    function GetUserById(id) {
-      UserData.findById({ id }).exec();
-    }
-
-    function GetUserByUserName(username) {
-      // UserData.find({ username: username })
-      //   .exec()
-      //   .then((docs) => {
-      //     const id = docs[0]._id;
-      //     UserData.remove({ _id: id }).exec();
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
-    }
   });
 };
