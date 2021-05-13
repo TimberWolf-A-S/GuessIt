@@ -8,7 +8,15 @@ const { doesNotMatch } = require('assert');
 
 module.exports = function (app, server) {
   const formatMessage = require('./utils/messages');
-  const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./utils/users');
+  const {
+    userJoin,
+    getCurrentUser,
+    userLeave,
+    getRoomUsers,
+    GetUserByUserName,
+    DisaggregateUserAndRoom,
+    GetRoomIdByName,
+  } = require('./utils/users');
   // const game = require("./utils/game");
   //const image = require("./controllers/imageController");
 
@@ -75,7 +83,7 @@ module.exports = function (app, server) {
         username: username,
         room: room,
         score: 0,
-        role: 'Guesser',
+        role: 'Helper',
       };
 
       let data = new UserData(userForm);
@@ -95,7 +103,7 @@ module.exports = function (app, server) {
                   const userId = userdocument.id;
                   console.log('ROOM ID: ', roomid);
 
-                  RoomData.updateOne({ _id: roomid }, { $push: { currentMembers: [userId] } }).exec();
+                  RoomData.updateOne({ _id: roomid }, { $push: { currentMembers: [userdocument] } }).exec();
                 });
             })
             // .then(() => {})
@@ -118,6 +126,17 @@ module.exports = function (app, server) {
 
       // Broadcast when a user connect
       socket.broadcast.to(user.room).emit('message', formatMessage(botName, `${user.username} has joined the chat`));
+
+      // HELPER SELECTOR
+      socket.on('helperSelector', function () {
+        RoomData.find({ name: user.room })
+          .exec()
+          .then((r) => {
+            const roomId = r[0].id;
+            const users = r[0].currentMembers;
+            console.log('users: ', users);
+          });
+      });
 
       // Timer
       let counter = 60;
@@ -166,30 +185,7 @@ module.exports = function (app, server) {
       const user = userLeave(socket.id);
 
       // FINDS AND DELETES THE USER FROM DB WHEN LEAVING GAME.
-      UserData.find({ username: user.username })
-        .exec()
-        .then((docs) => {
-          const userDoc = docs[0];
-          const id = docs[0]._id;
-
-          RoomData.find({ name: user.room })
-            .exec()
-            .then((r) => {
-              const roomDoc = r[0];
-              const userId = userDoc._id;
-
-              console.log('DEL USER ID: ', userId);
-              console.log('DEL Room ID: ', roomDoc._id);
-
-              RoomData.updateOne({ _id: roomDoc._id }, { $pull: { currentMembers: { $in: `${userId}` } } }).exec();
-            })
-            .then(() => {
-              UserData.deleteOne({ _id: id }).exec();
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      DisaggregateUserAndRoom(user.username, user.room);
 
       clients--;
       if (user) {
