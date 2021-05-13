@@ -86,6 +86,10 @@ function outputUsers(users) {
   });
 } 
 
+function helperSelector() {
+  socket.emit('helperSelector');
+}
+
 // Creating the scoreboard with usernames and a score at 0
 function outputScoreboard(users) {
   if(scoreList !== null && userScore !== null){
