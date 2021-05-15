@@ -11,7 +11,6 @@ router.get('/', lobby_controller.lobby, lobby_controller.room_list);
 router.get('/', function (req, res, next) {
   GameData.find().then(function (doc) {
     res.render('lobby', { items: doc });
-    console.log('DOC', doc);
   });
 });
 

@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var socketIo = require('socket.io');
 const { doesNotMatch } = require('assert');
+const { GetAllImages } = require('./utils/game');
 
 module.exports = function (app, server) {
   const formatMessage = require('./utils/messages');
@@ -27,6 +28,7 @@ module.exports = function (app, server) {
 
   let UserData = require('./models/userModel');
   let RoomData = require('./models/roomModel');
+  let ImageData = require('./models/image');
 
   //Set up mongoose connection
   let mongoose = require('mongoose');
@@ -103,7 +105,7 @@ module.exports = function (app, server) {
                   const userId = userdocument.id;
                   console.log('ROOM ID: ', roomid);
 
-                  RoomData.updateOne({ _id: roomid }, { $push: { currentMembers: [userdocument] } }).exec();
+                  RoomData.updateOne({ _id: roomid }, { $push: { currentMembers: [userId] } }).exec();
                 });
             })
             // .then(() => {})
@@ -127,14 +129,33 @@ module.exports = function (app, server) {
       // Broadcast when a user connect
       socket.broadcast.to(user.room).emit('message', formatMessage(botName, `${user.username} has joined the chat`));
 
+      socket.on('startGame', function () {
+        console.log('Button pressed');
+      });
+
       // HELPER SELECTOR
       socket.on('helperSelector', function () {
         RoomData.find({ name: user.room })
           .exec()
           .then((r) => {
             const roomId = r[0].id;
-            const users = r[0].currentMembers;
-            console.log('users: ', users);
+
+            ImageData.find({})
+              .exec()
+              .then((i) => {
+                const numberOfImages = i.length - 1;
+                const randomImage = Math.round(Math.random(numberOfImages) * numberOfImages);
+                const randomImageDocument = i[randomImage];
+                console.log('Number of images', numberOfImages);
+                console.log('Random', randomImage);
+
+                RoomData.updateOne(
+                  { _id: roomId },
+                  { hint: randomImageDocument.name, image: randomImageDocument.image }
+                ).exec();
+              });
+
+            // console.log('Random: ', Math.random(images.length()));
           });
       });
 
@@ -159,7 +180,7 @@ module.exports = function (app, server) {
         users: getRoomUsers(user.room),
       });
 
-      io.to(user.room).emit('startButton', getRoomUsers(user.room));
+      // io.to(user.room).emit('startButton', getRoomUsers(user.room));
 
       // Listen for correct answer and updates scoreboard
       socket.on('correct', (msg) => {
