@@ -29,12 +29,13 @@ socket.on('roomUsers', ({ room, users }) => {
   outputRoomName(room);
   outputUsers(users);
   outputScoreboard(users);
+  enableStartButton(users);
 });
 
 // Start button from the game waiting room
-socket.on('startButton', (users) => {
-  enableStartButton(users);
-});
+// socket.on('startButton', (users) => {
+//   enableStartButton(users);
+// });
 
 socket.on('message', (message) => {
   console.log(message);
@@ -140,28 +141,28 @@ function GetAllUsersFromRoom() {}
 
 // Uses the userInRoom function. If there are less users in room than required, nothing will happen when pressing the start button
 function enableStartButton(users) {
-  // let user = usersInRoom(users);
+  let user = usersInRoom(users);
   // console.log(user);
-  socket.emit('startGame');
+  // socket.emit('startGame');
 
-  // const button = document.getElementById('start-btn');
-  // if (button !== null) {
-  //   if (user.length == 3) {
-  //     button.disabled = false;
-  //     // The first user in the array will be the guesser
-  //     if (username == user[0]) {
-  //       guesserStart(users);
-  //       // All other users will be helper
-  //     } else {
-  //       helperStart(users);
-  //     }
-  //     console.log('Test succes');
-  //   } else {
-  //     button.disabled = true;
+  const button = document.getElementById('start-btn');
+  if (button !== null) {
+    if (user.length == 2) {
+      button.disabled = false;
+      // The first user in the array will be the guesser
+      if (username == user[0]) {
+        guesserStart(users);
+        // All other users will be helper
+      } else {
+        helperStart(users);
+      }
+      console.log('Test succes');
+    } else {
+      button.disabled = true;
 
-  //     console.log('Test failed');
-  //   }
-  // }
+      console.log('Test failed');
+    }
+  }
 }
 
 function helperSelector() {
