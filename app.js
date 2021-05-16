@@ -88,7 +88,7 @@ module.exports = function (app, server) {
         role: 'Helper',
       };
 
-      let data = new UserData(userForm);
+      let data = UserData(userForm);
       data
         .save()
         .then(() => {
@@ -106,9 +106,11 @@ module.exports = function (app, server) {
                   console.log('ROOM ID: ', roomid);
 
                   RoomData.updateOne({ _id: roomid }, { $push: { currentMembers: [userId] } }).exec();
+                })
+                .catch((err) => {
+                  console.log(err);
                 });
             })
-            // .then(() => {})
             .catch((err) => {
               console.log(err);
             });
