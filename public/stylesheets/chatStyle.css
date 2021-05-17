@@ -1,3 +1,4 @@
+/* Importing font used for text in the game */
 @font-face {
   font-family: Kollektif Regular;
   font-style: normal;
@@ -5,17 +6,20 @@
   src: local("Kollektif Regular"), url("Kollektif.woff") format("woff");
 }
 
+/* Importing font used for text in the chat */
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
 body {
+  /* Background imported through an url */
   background-image: url("https://images.unsplash.com/photo-1508614999368-9260051292e5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80");
   background-repeat: no-repeat;
   background-size: cover;
+  /* Uses the roboto font, if it does not exists it uses sans-serif */
   font-family: "Roboto", sans-serif;
   font-size: 16px;
   margin: 20px;
   margin-bottom: 150px;
 }
-
-@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
 h1 {
   text-align: center;
@@ -25,18 +29,18 @@ h1 {
   letter-spacing: 5mm;
 }
 
+/* Pseudo-class for easier use of global HTML colors */
 :root {
   --dark-color-a: #667aff;
   --dark-color-b: #7386ff;
   --light-color: #e6e9ff;
-  --success-color: #5cb85c;
-  --error-color: #d9534f;
 }
 
 #users {
   font-size: 8px;
 }
 
+/* Selects all elements */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -51,6 +55,7 @@ a {
   text-decoration: none;
 }
 
+/* Styling for chat buttons */
 .btn {
   cursor: pointer;
   padding: 5px 15px;
@@ -60,7 +65,7 @@ a {
   font-size: 17px;
 }
 
-/* Chat Page */
+/* -- CHAT PAGE -- */
 
 .chat-container {
   float: right;
@@ -121,9 +126,11 @@ a {
   margin-bottom: 15px;
   background-color: var(--light-color);
   border-radius: 5px;
+  /* If entire word cannot be in one line, it breaks the word */
   overflow-wrap: break-word;
 }
 
+/* Styling for ysernames in chat usernames */
 .chat-messages .message .meta {
   font-size: 15px;
   font-weight: bold;
@@ -132,6 +139,7 @@ a {
   margin-bottom: 7px;
 }
 
+/* Styling for time in chat */
 .chat-messages .message .meta span {
   color: #777;
 }
@@ -150,13 +158,4 @@ a {
   padding: 5px;
   height: 40px;
   flex: 1;
-}
-
-#start-btn {
-  cursor: pointer;
-  padding: 5px 15px;
-  background: var(--light-color);
-  color: var(--dark-color-a);
-  border: 0;
-  font-size: 17px;
 }

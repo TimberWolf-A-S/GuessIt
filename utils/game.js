@@ -1,8 +1,13 @@
+/**
+ * CURRENTLY NOT IN USE!!
+ * Preparation for future work
+ */
+
 let mongoose = require('mongoose');
 
 let UserData = require('../models/userModel');
 let RoomData = require('../models/roomModel');
-let ImgData = require('../models/image');
+let ImgData = require('../models/imageModel');
 
 function startGame(id, users) {
   let round = 1;

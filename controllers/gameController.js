@@ -1,19 +1,30 @@
-let Image = require("../models/image");
+let Image = require("../models/imageModel");
 
+
+/**
+ * Controller that is being used when accessing the game view
+ */
 exports.game = function(req, res) {
     res.render('game', {title: 'game'});
 }
 
+/**
+ * Controller that is being used when accessing the guesser view
+ */
 exports.game_guesser = function(req, res) {
     res.render('guesser', {title: 'guesser'});
 };
 
+/**
+ * Controller that is being used when accessing the helper view
+ */
 exports.game_helper = function (req, res, next) {
-    random_index = Math.floor(Math.random() * 12);
+    random_index = Math.floor(Math.random() * 13);
+    console.log(random_index);
   
     Image.find({})
-      .limit(-1)
       .skip(random_index)
+      .limit(1)
       .exec(function (err, list_image) {
         if (err) {
           return next(err);
