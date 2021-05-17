@@ -5,7 +5,6 @@
  */
 const express = require('express');
 const app = express();
-// var chatServer = require('../chatServer');
 var debug = require('debug')('guessittest6:server');
 var http = require('http');
 
@@ -22,6 +21,9 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+/**
+ * Requring app and socket.io from app.js
+ */
 require('../app.js')(app, server);
 
 /**
@@ -83,7 +85,6 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'

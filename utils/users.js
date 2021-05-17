@@ -1,35 +1,49 @@
 let UserData = require('../models/userModel');
 let RoomData = require('../models/roomModel');
 
+/**
+ * Creates an empty user array
+ */
 const users = [];
 
-// Join user to chat
-function userJoin(id, username, room, score, role) {
-  const user = { id, username, room, score, role };
+/**
+ * Join user to chat
+ */
+function userJoin(id, username, room, score) {
+  const user = { id, username, room, score };
 
+  // Pushes user into user array
   users.push(user);
-
   return user;
 }
 
-//Get current user
+/**
+ * Get current user
+ */
 function getCurrentUser(id) {
   return users.find((user) => user.id === id);
 }
 
-//User leaves chat
+/**
+ * User leaves chat
+ */
 function userLeave(id) {
+  // Find user in the user array
   const index = users.findIndex((user) => user.id === id);
 
+  // Removes user
   if (index !== -1) {
     return users.splice(index, 1)[0];
   }
 }
 
-// Get room users
+/**
+ * Get room users
+ */
 function getRoomUsers(room) {
   return users.filter((user) => user.room === room);
 }
+
 
 /**
  *
@@ -37,51 +51,68 @@ function getRoomUsers(room) {
  *
  */
 
+/**
+ * Finds room ID
+ */
 function GetRoomIdByName(roomname) {
   RoomData.find({ name: roomname })
     .exec()
     .then((r) => {
       const roomId = r[0].id;
-      console.log('asd', roomId);
       return roomId;
     });
 }
 
+/**
+ * Finds user ID
+ */
 function GetUserIdByName(username) {
   UserData.find({ username: username })
     .exec()
     .then((x) => {
       const userId = x[0]._id;
-
       return userId;
     });
 }
 
+/**
+ * Delete user from room in MongoDB
+ */
 function DeleteUserFromRoom(roomId, userId) {
   RoomData.updateOne({ _id: roomId }, { $pull: { currentMembers: { $in: `${userId}` } } })
-    .exec()
-    .then(console.log(`User (${userId}) has been removed from Room: ${roomId}`));
+    .exec();
 }
 
+/**
+ * Deletes user from MongoDB
+ */
 function DeleteUser(userId) {
   UserData.deleteOne({ _id: userId }).exec();
 }
 
+/**
+ * Removes user from room, then from user 
+ */
 function DisaggregateUserAndRoom(username, roomname) {
   UserData.find({ username: username })
     .exec()
     .then((docs) => {
       const userId = docs[0]._id;
-
       RoomData.find({ name: roomname })
         .exec()
         .then((r) => {
           const roomId = r[0]._id;
           DeleteUserFromRoom(roomId, userId);
         })
+        .catch((err) => {
+          console.log(err);
+        })
         .then(() => {
           DeleteUser(userId);
-        });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     })
     .catch((err) => {
       console.log(err);
@@ -99,9 +130,5 @@ module.exports = {
   getCurrentUser,
   userLeave,
   getRoomUsers,
-  DeleteUserFromRoom,
-  DeleteUser,
-  GetRoomIdByName,
-  GetUserIdByName,
   DisaggregateUserAndRoom,
 };

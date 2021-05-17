@@ -1,3 +1,4 @@
+<!-- GAME / WAITiNG ROOM -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,16 +25,26 @@
   </header>
 
   <body>
+    <!-- Audio runs while waiting for other player to join -->
     <audio id="myAudio">
       <source src="https://vonfrohn.com/music.mp3" type="audio/mp3" />
     </audio>
+    <!-- Audio plays when pressing the start button -->
     <audio id="quack">
       <source src="https://vonfrohn.com/quack.mp3" type="audio/mp3" />
     </audio>
-    <button id="start-btn" type="button" class="btn" onclick="quack()">
+    <button id="start-btn" type="button" class="btn" onclick="quackSound()">
       Start Game
     </button>
-    <button id="helper-btn" type="button" class="btn" onclick="helperSelector()">Select Helper</button>
+    <!-- Choose random image and insert it in the room in MongoDB -->
+    <button
+      id="helper-btn"
+      type="button"
+      class="btn"
+      onclick="helperImageSelector()"
+    >
+      Select Random Image
+    </button>
     <div class="chat-container">
       <header class="chat-header">
         <h3><i class="fas"></i> Game Chat</h3>

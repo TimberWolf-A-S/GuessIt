@@ -1,3 +1,4 @@
+/* Importing font used for text in the game */
 @font-face {
   font-family: Kollektif Regular;
   font-style: normal;
@@ -24,18 +25,18 @@ h1 {
   letter-spacing: 5mm;
 }
 
+/* Pseudo-class for easier use of global HTML colors */
 :root {
   --dark-color-a: #667aff;
   --dark-color-b: #7386ff;
   --light-color: #e6e9ff;
-  --success-color: #5cb85c;
-  --error-color: #d9534f;
 }
 
 #users {
   font-size: 8px;
 }
 
+/* Selects all elements */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -111,6 +112,7 @@ a {
   width: 100%;
 }
 
+/* Changes when browser window is 700px or less */
 @media (max-width: 700px) {
   .chat-main {
     display: block;
