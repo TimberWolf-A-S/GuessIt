@@ -45,6 +45,13 @@ socket.on('roomUsers', ({ room, users }) => {
 });
 
 /**
+ * Only check if correct answer exists on the helper page
+ */
+ if (correctAnswer !== null) {
+  correctAnswer = correctAnswer.innerText;
+}
+
+/**
  * Get messages and run formatting
  */
 socket.on('message', (message) => {
@@ -53,6 +60,11 @@ socket.on('message', (message) => {
 
   // Scroll down
   chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  // If the users answers correctly a message will appear in the chat
+  if (message.text === correctAnswer) {
+    socket.emit('correct', 'Correct!');
+  }
 });
 
 /**
@@ -234,22 +246,6 @@ socket.on('counter', function (count) {
   //As long as not run out, the timer is output to DOM
   if (counter != null) {
     counter.innerText = count;
-  }
-});
-
-/**
- * Only check if correct answer exists on the helper page
- */
-if (correctAnswer !== null) {
-  correctAnswer = correctAnswer.innerText;
-}
-
-/**
- * If the users answers correctly a message will appear in the chat
- */
-socket.on('message', (message) => {
-  if (message.text === correctAnswer) {
-    socket.emit('correct', 'Correct!');
   }
 });
 
