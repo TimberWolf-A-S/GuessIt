@@ -12,7 +12,7 @@ ul {
 nav {
   font-size: 16px;
   text-align: center;
-  font-family: Kollektif Regular;
+  font-family: Kollektif Regular, sans-serif;
   padding: 20px;
 }
 
@@ -24,7 +24,7 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  margin: 0 0;
+  /*margin: 0 0;*/
   margin-top: 150px;
   left: 0;
   right: 0;

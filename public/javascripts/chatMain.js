@@ -1,6 +1,7 @@
 /**
  * Get elements from views
  */
+// let io = require("socket.io");
 const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
@@ -10,13 +11,19 @@ const userScore = document.getElementById('userScore');
 let myAudio = document.getElementById('myAudio');
 let correctAnswer = document.getElementById('correctAnswer');
 let counter = document.getElementById('counter');
-
+//let Qs = require('qs');
 /**
  * Get username and room from URL
  */
-const { username, room } = Qs.parse(location.search, {
+/*const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
-});
+});*/
+
+const params = new URLSearchParams(window.location.search);
+const username = params.get('username');
+console.log(username);
+const room = params.get('room');
+console.log(room);
 
 /**
  * Requiring socket.io
@@ -91,7 +98,7 @@ function outputMessage(message) {
   //Create div for message
   const div = document.createElement('div');
   div.classList.add('message');
-  //Create paragaph for username and time of message
+  //Create paragraph for username and time of message
   const p = document.createElement('p');
   p.classList.add('meta');
   p.innerText = message.username;
@@ -127,6 +134,8 @@ function outputUsers(users) {
     userList.appendChild(li);
   });
 }
+
+
 
 /**
  * Creating the scoreboard with usernames and score at 0 and output to DOM
@@ -200,21 +209,11 @@ function startGame(users) {
 }
 
 /**
- * Sound used if players try to press start button before it is enabled
- */
- function quackSound() {
-  var quack = document.getElementById("quack");
-  quack.play();
-}
-
-/**
- * Mute button for the background music
+ * Mute button for the background music (unused function)
  */
 function mute() {
-  if (myAudio.muted == true) {
+  if (myAudio.muted) {
     myAudio.muted = false;
-  } else {
-    myAudio.muted = true;
   }
 }
 
@@ -256,3 +255,4 @@ socket.on('updateScoreboard', (user) => {
   let li = document.getElementById(user.username);
   li.innerText = Number(li.innerText) + 1;
 });
+

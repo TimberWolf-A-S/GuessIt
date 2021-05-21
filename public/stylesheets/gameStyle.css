@@ -11,19 +11,19 @@
   text-align: center;
   font-size: 50px;
   color: white;
-  font-family: Kollektif Regular;
+  font-family: Kollektif Regular, sans-serif;
 }
 
 #yourTurnH3 {
   text-align: center;
   font-size: 25px;
   color: white;
-  font-family: Kollektif Regular;
+  font-family: Kollektif Regular, sans-serif;
 }
 
 #counter {
   font-size: 1.5em;
-  font-family: Kollektif Regular;
+  font-family: Kollektif Regular, sans-serif;
   text-align: center;
   padding: 5px;
 }
@@ -45,7 +45,7 @@
 }
 
 .scoreboard {
-  display: flex;
+  /*display: flex;*/
   display: inline-block;
   padding: 5px;
 }
@@ -62,7 +62,7 @@
 
 #scoreboardP {
   font-size: larger;
-  font-family: Kollektif Regular;
+  font-family: Kollektif Regular, sans-serif;
 }
 
 #imageAnswer {
@@ -76,7 +76,7 @@
 .answer {
   text-align: center;
   font-size: large;
-  font-family: Kollektif Regular;
+  font-family: Kollektif Regular, sans-serif;
 }
 
 /* For mobile phones: */

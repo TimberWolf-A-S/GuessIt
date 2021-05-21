@@ -25,7 +25,7 @@ h1 {
   text-align: center;
   font-size: 75px;
   /* Kollektif font */
-  font-family: Kollektif Regular;
+  font-family: Kollektif Regular, sans-serif;
   letter-spacing: 5mm;
 }
 
@@ -130,7 +130,7 @@ a {
   overflow-wrap: break-word;
 }
 
-/* Styling for ysernames in chat usernames */
+/* Styling for usernames in chat usernames */
 .chat-messages .message .meta {
   font-size: 15px;
   font-weight: bold;

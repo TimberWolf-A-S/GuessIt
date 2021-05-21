@@ -2,8 +2,8 @@
  * Requires express and uses it to
  * create a router object 
 */
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 /**
  * Require the controllers from gameController 

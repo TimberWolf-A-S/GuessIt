@@ -6,7 +6,7 @@
     <link
       rel="shortcut icon"
       type="image/jpg"
-      href="/favicon_io/favicon-32x32.png"
+      href="favicon_io/favicon-32x32.png"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
@@ -15,8 +15,8 @@
       integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="/stylesheets/footerStyle.css" />
-    <link rel="stylesheet" href="/stylesheets/chatStyle.css" />
+    <link rel="stylesheet" href="stylesheets/footerStyle.css" />
+    <link rel="stylesheet" href="stylesheets/chatStyle.css" />
     <title>GuessIt</title>
   </head>
 
@@ -30,10 +30,7 @@
       <source src="https://vonfrohn.com/music.mp3" type="audio/mp3" />
     </audio>
     <!-- Audio plays when pressing the start button -->
-    <audio id="quack">
-      <source src="https://vonfrohn.com/quack.mp3" type="audio/mp3" />
-    </audio>
-    <button id="start-btn" type="button" class="btn" onclick="quackSound()">
+    <button id="start-btn" type="button" class="btn">
       Start Game
     </button>
     <!-- Choose random image and insert it in the room in MongoDB -->
@@ -98,6 +95,6 @@
       playAudio();
     </script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/javascripts/chatMain.js"></script>
+    <script src="javascripts/chatMain.js"></script>
   </body>
 </html>
