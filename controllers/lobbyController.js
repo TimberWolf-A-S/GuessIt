@@ -3,7 +3,7 @@ let Room = require('../models/roomModel');
 /**
  * Controller that is being used when accessing the lobby view
  */
-exports.lobby = function (req, res) {
+exports.lobby = function (req, res, next) {
   // Finds rooms from mongoDB
   Room.find({}).exec(function (err, list_room) {
     if (err) {

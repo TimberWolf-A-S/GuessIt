@@ -19,7 +19,7 @@ exports.game_guesser = function(req, res) {
  * Controller that is being used when accessing the helper view
  */
 exports.game_helper = function (req, res, next) {
-    random_index = Math.round(Math.random() * 12);
+    let random_index = Math.round(Math.random() * 12);
     console.log(random_index);
   
     Image.find({})

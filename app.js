@@ -105,15 +105,15 @@ module.exports = function (app, server) {
           UserData.find({ username: user.username })
             .exec()
             .then((docs) => {
-              const userdocument = docs[0];
+              const userDocument = docs[0];
               //Find room
               RoomData.find({ name: room })
                 .exec()
                 .then((r) => {
-                  const roomid = r[0]._id;
-                  const userId = userdocument.id;
+                  const roomId = r[0]._id;
+                  const userId = userDocument.id;
                   // Add user to currentMembers array in room
-                  RoomData.updateOne({ _id: roomid }, { $push: { currentMembers: [userId] } }).exec();
+                  RoomData.updateOne({ _id: roomId }, { $push: { currentMembers: [userId] } }).exec();
                 })
                 .catch((err) => {
                   console.log(err);
