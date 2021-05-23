@@ -36,6 +36,17 @@ describe("Loading pages", () => {
 });
 
 describe("Loading image", () => {
+  beforeAll(async () => {
+    mongoose.connect(mongoDB, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  });
+  
+  afterAll(async () => {
+    await mongoose.connection.close();
+  });
+
   test("Load Helper Page", (done) => {
     http.get("http://localhost:3000/game/helper", (response) => {
       expect(response.statusCode).toBe(200);
@@ -60,10 +71,12 @@ const userInformation = {
   score: 0,
 };
 
-beforeAll(async () => {
+describe("Data Layer Tests", () => {
+beforeEach(async () => {
   mongoose.connect(mongoDB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   });
   mongoose.Promise = Promise;
   await UserData.deleteMany({});
@@ -72,15 +85,15 @@ beforeAll(async () => {
 afterEach(async () => {
   // Wipes the users collection after each use.
   UserData.deleteMany({});
-});
-
-afterAll(async () => {
-  // Closes the connection to the db and wipes
-  UserData.deleteMany({});
   await mongoose.connection.close();
 });
 
-describe("Data Layer Tests", () => {
+// afterAll(async () => {
+//   // Closes the connection to the db and wipes
+//   UserData.deleteMany({});
+//   await mongoose.connection.close();
+// });
+
   it("can create a user", async () => {
     await new UserData(userInformation).save();
     const userCount = await UserData.countDocuments();
