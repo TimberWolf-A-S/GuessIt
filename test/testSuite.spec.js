@@ -4,7 +4,7 @@ let UserData = require("../models/userModel");
 let RoomData = require("../models/roomModel");
 let ImageData = require("../models/imageModel");
 
-const dev_db_url = `mongodb+srv://Timberwolves:Timberwolves123@cluster0.3ilbb.mongodb.net/GuessIt?retryWrites=true&w=majority`;
+const dev_db_url = require('../MongoDB/connection');
 let mongoose = require("mongoose");
 let mongoDB = process.env.MONGODB_URI || dev_db_url;
 

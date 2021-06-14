@@ -29,8 +29,9 @@ module.exports = function (app, server) {
   /**
    * Set up mongoose connection
    */
+  
   let mongoose = require('mongoose');
-  const dev_db_url = `mongodb+srv://Timberwolves:Timberwolves123@cluster0.3ilbb.mongodb.net/GuessIt?retryWrites=true&w=majority`;
+  const dev_db_url = require('./MongoDB/connection');
   let mongoDB = process.env.MONGODB_URI || dev_db_url;
   mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
   let db = mongoose.connection;
@@ -171,10 +172,11 @@ module.exports = function (app, server) {
       // Timer
       let counter = 120;
       // Starts as soon as there is two socket connections
-      if ((user.room).length >= 2 &&  countdownGoing != true) {
+      if ((getRoomUsers(user.room)).length >= 2 &&  countdownGoing != true) {
         countdownGoing = true;
         // Set interval for countdown to one second
         let countdown = setInterval(function () {
+          // FIX emitting to all rooms
           io.sockets.emit('counter', counter);
           counter--;
           if (counter === 0) {
@@ -215,14 +217,12 @@ module.exports = function (app, server) {
 
       // Finds and deletes the user from DB when leaving game
       DisaggregateUserAndRoom(user.username, user.room);
-      if (user) {
-        io.to(user.room).emit('message', formatMessage(botName, `${user.username} has left the chat`));
-        // Send users and room info
-        io.to(user.room).emit('roomUsers', {
-          room: user.room,
-          users: getRoomUsers(user.room),
-        });
-      }
+      io.to(user.room).emit('message', formatMessage(botName, `${user.username} has left the chat`));
+      // Send users and room info
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room),
+      });
     });
   });
 };

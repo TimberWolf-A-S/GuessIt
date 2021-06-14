@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// A shebang line
 
 /**
  * Module dependencies.
@@ -91,4 +92,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log(bind);
 }
