@@ -1,4 +1,5 @@
 let Image = require("../models/imageModel");
+let Room = require("../models/roomModel")
 
 
 /**
@@ -21,14 +22,18 @@ exports.game_guesser = function(req, res) {
 exports.game_helper = function (req, res, next) {
     let random_index = Math.round(Math.random() * 12);
     console.log(random_index);
-  
-    Image.find({})
-      .skip(random_index)
-      .limit(1)
-      .exec(function (err, list_image) {
+
+    Room.find({}).limit(1).exec(function (err, list_image){
         if (err) {
           return next(err);
         }
+    // Image.find({})
+    //   .skip(random_index)
+    //   .limit(1)
+    //   .exec(function (err, list_image) {
+    //     if (err) {
+    //       return next(err);
+    //     }
   
         //Successful, so render
         res.render("helper", {

@@ -55,7 +55,7 @@ socket.on('roomUsers', ({ room, users }) => {
  * Only check if correct answer exists on the helper page
  */
  if (correctAnswer !== null) {
-  correctAnswer = correctAnswer.innerText;
+  correctAnswer = correctAnswer.innerText.toLowerCase();
 }
 
 /**
@@ -69,7 +69,7 @@ socket.on('message', (message) => {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
   // If the users answers correctly a message will appear in the chat
-  if (message.text === correctAnswer) {
+  if (message.text.toLowerCase() === correctAnswer) {
     socket.emit('correct', 'Correct!');
   }
 });
@@ -225,17 +225,17 @@ function leaveRoom() {
 }
 
 /**
+ * Sends guesser to correct route with the query string
+ */
+ function guesserStart() {
+  location.href = `/game/guesser?username=${username}&room=${room}`;
+}
+
+/**
  * Sends helpers to correct route with the query string
  */
 function helperStart() {
   location.href = `/game/helper?username=${username}&room=${room}`;
-}
-
-/**
- * Sends guesser to correct route with the query string
- */
-function guesserStart() {
-  location.href = `/game/guesser?username=${username}&room=${room}`;
 }
 
 /**
